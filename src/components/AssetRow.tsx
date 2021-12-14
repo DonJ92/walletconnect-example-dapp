@@ -46,7 +46,7 @@ const AssetRow = (props: any) => {
       </SAssetRowLeft>
       <SAssetRowRight>
         <SAssetBalance>
-          {`${handleSignificantDecimals(convertAmountFromRawNumber(asset.balance), 8)} ${
+          {`${asset.balance} ${
             asset.symbol
           }`}
         </SAssetBalance>
