@@ -24,6 +24,7 @@ const AccountAssets = (props: any) => {
 
   let nativeCurrency: IAssetData = defaultNativeCurrency;
   let tokens: IAssetData[] = [];
+  console.log(nativeCurrency);
   if (assets && assets.length) {
     const filteredNativeCurrency = assets.filter((asset: IAssetData) =>
       asset && asset.symbol
