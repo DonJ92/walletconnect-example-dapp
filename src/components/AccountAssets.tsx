@@ -41,9 +41,6 @@ const AccountAssets = (props: any) => {
         : false,
     );
   }
-  tokens.map(function(object) {
-    console.log(handleSignificantDecimals(convertAmountFromRawNumber(object.balance), 8));
-  });
   return (
     <Column center>
       <AssetRow key={nativeCurrency.name} asset={nativeCurrency} />
