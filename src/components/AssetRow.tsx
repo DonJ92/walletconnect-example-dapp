@@ -4,7 +4,7 @@ import Icon from "./Icon";
 import ERC20Icon from "./ERC20Icon";
 import eth from "../assets/eth.svg";
 import xdai from "../assets/xdai.png";
-import { handleSignificantDecimals} from "../helpers/bignumber";
+import { handleSignificantDecimals, convertAmountFromRawNumber } from "../helpers/bignumber";
 
 const SAssetRow = styled.div`
   width: 100%;
@@ -46,7 +46,7 @@ const AssetRow = (props: any) => {
       </SAssetRowLeft>
       <SAssetRowRight>
         <SAssetBalance>
-          {`${handleSignificantDecimals(asset.balance, 8)} ${
+          {`${handleSignificantDecimals(convertAmountFromRawNumber(asset.balance), parseInt(asset.decimals, 10))} ${
             asset.symbol
           }`}
         </SAssetBalance>
