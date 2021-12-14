@@ -4,6 +4,7 @@ import Icon from "./Icon";
 import ERC20Icon from "./ERC20Icon";
 import eth from "../assets/eth.svg";
 import xdai from "../assets/xdai.png";
+import { handleSignificantDecimals} from "../helpers/bignumber";
 
 const SAssetRow = styled.div`
   width: 100%;
@@ -45,7 +46,7 @@ const AssetRow = (props: any) => {
       </SAssetRowLeft>
       <SAssetRowRight>
         <SAssetBalance>
-          {`${asset.balance} ${
+          {`${handleSignificantDecimals(asset.balance, 8)} ${
             asset.symbol
           }`}
         </SAssetBalance>
