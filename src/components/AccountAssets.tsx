@@ -2,6 +2,7 @@ import * as React from "react";
 import Column from "./Column";
 import AssetRow from "./AssetRow";
 import { IAssetData } from "../helpers/types";
+import { convertAmountFromRawNumber, handleSignificantDecimals } from "src/helpers/bignumber";
 
 const AccountAssets = (props: any) => {
   const { assets, chainId } = props;
@@ -39,8 +40,10 @@ const AccountAssets = (props: any) => {
         ? asset.symbol.toLowerCase() !== nativeCurrency.symbol.toLowerCase()
         : false,
     );
-    console.log(tokens);
   }
+  tokens.map(function(object) {
+    console.log(handleSignificantDecimals(convertAmountFromRawNumber(object.balance), 8));
+  });
   return (
     <Column center>
       <AssetRow key={nativeCurrency.name} asset={nativeCurrency} />

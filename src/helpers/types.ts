@@ -3,7 +3,7 @@ export interface IAssetData {
   name: string;
   decimals: string;
   contractAddress: string;
-  balance?: string;
+  balance: string;
 }
 
 export interface IChainData {
