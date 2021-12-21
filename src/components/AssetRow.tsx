@@ -34,8 +34,6 @@ const AssetRow = (props: any) => {
       : asset.symbol && asset.symbol.toLowerCase() === "xdai"
       ? xdai
       : null;
-      console.log(convertAmountFromRawNumber(asset.balance));
-      console.log(handleSignificantDecimals(asset.balance, 0));
   return (
     <SAssetRow {...props}>
       <SAssetRowLeft>
