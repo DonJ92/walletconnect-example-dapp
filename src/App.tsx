@@ -454,7 +454,58 @@ class App extends React.Component<any, any> {
   };
 
   public testPltSendTransaction = async () => {
+    const { connector, address, chainId } = this.state;
 
+    if (!connector) {
+      return;
+    }
+
+    // from
+    const from = address;
+
+    // to
+    const to = address;
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // test transaction
+    const tx = {
+      from,
+      to,
+      value,
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      // send transaction
+      const result = await connector.sendTransaction(tx);
+
+      // format displayed result
+      const formattedResult = {
+        method: "plt_sendTransaction",
+        txHash: result,
+        from: address,
+        to: address,
+        value: "0 PLT",
+      };
+
+      // display result
+      this.setState({
+        connector,
+        pendingRequest: false,
+        result: formattedResult || null,
+      });
+    } catch (error) {
+      console.error(error);
+      this.setState({ connector, pendingRequest: false, result: null });
+    }
   };
 
   public render = () => {
