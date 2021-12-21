@@ -460,22 +460,20 @@ class App extends React.Component<any, any> {
       return;
     }
 
-    // from
-    const from = address;
-
-    // to
-    const to = address;
-
-    // value
     const _value = 0;
-    const value = sanitizeHex(convertStringToHex(_value));
-
-    // test transaction
-    const tx = {
-      from,
-      to,
-      value,
+    const customRequest = {
+      id: 1337,
+      jsonrpc: "2.0",
+      method: "plt_sendTransaction",
+      params: [
+        {
+          from: address,
+          to: address,
+          value: sanitizeHex(convertStringToHex(_value)),
+        },
+      ],
     };
+    
 
     try {
       // open modal
@@ -485,7 +483,7 @@ class App extends React.Component<any, any> {
       this.setState({ pendingRequest: true });
 
       // send transaction
-      const result = await connector.sendTransaction(tx);
+      const result = await connector.sendCustomRequest(customRequest);
 
       // format displayed result
       const formattedResult = {
