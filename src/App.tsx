@@ -453,6 +453,10 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testPltSendTransaction = async () => {
+
+  };
+
   public render = () => {
     const {
       assets,
@@ -503,6 +507,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testSignTypedData}>
                       {"eth_signTypedData"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testPltSendTransaction}>
+                      {"plt_sendTransaction"}
                     </STestButton>
                   </STestButtonContainer>
                 </Column>
