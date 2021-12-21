@@ -454,7 +454,7 @@ class App extends React.Component<any, any> {
   };
 
   public testPltSendTransaction = async () => {
-    const { connector, address, chainId } = this.state;
+    const { connector, address } = this.state;
 
     if (!connector) {
       return;
