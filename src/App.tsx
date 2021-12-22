@@ -23,6 +23,7 @@ import { IAssetData } from "./helpers/types";
 import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 import { eip712 } from "./helpers/eip712";
+import PLTABI from "../src/contracts/PLT.json";
 
 const SLayout = styled.div`
   position: relative;
