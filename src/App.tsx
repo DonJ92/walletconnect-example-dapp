@@ -507,7 +507,7 @@ class App extends React.Component<any, any> {
     // const PLTABI= JSON.parse(fs.readFileSync(jsonFile).toString());
 
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const PLT = new web3.eth.Contract(PLTABI, contract);
+    const PLT = new web3.eth.Contract(require('./contracts/PLT.json'), contract);
     const data = PLT.methods.transferFrom(from, from, value).encodeABI({from});
 
     const tx: TransactionConfig = {
