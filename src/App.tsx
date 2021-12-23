@@ -528,9 +528,9 @@ class App extends React.Component<any, any> {
   };
 
   public testSignMessage = async () => {
-    const { connector, address/*, chainId*/ } = this.state;
+    const { address/*, chainId*/ } = this.state;
 
-    if (!connector) {
+    if (!this.state.connected) {
       return;
     }
 
