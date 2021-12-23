@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "@walletconnect/qrcode-modal";
-// import { convertUtf8ToHex } from "@walletconnect/utils";
+import { convertUtf8ToHex } from "@walletconnect/utils";
 // import { IInternalEvent } from "@walletconnect/types";
 import Button from "./components/Button";
 import Column from "./components/Column";
@@ -15,14 +15,14 @@ import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./help
 import {
   sanitizeHex,
   verifySignature,
-  hashTypedDataMessage,
+//  hashTypedDataMessage,
   hashMessage,
 } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 // import { IAssetData } from "./helpers/types";
 import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
-import { eip712 } from "./helpers/eip712";
+// import { eip712 } from "./helpers/eip712";
 import Web3 from 'web3';
 import {AbiItem} from 'web3-utils';
 import PLTABI from './contracts/PLT.json';
@@ -187,23 +187,6 @@ class App extends React.Component<any, any> {
   }
 
   public connect = async () => {
-    // // bridge url
-    // const bridge = "https://bridge.walletconnect.org";
-
-    // // create new connector
-    // const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal });
-
-    // await this.setState({ connector });
-
-    // // check if already connected
-    // if (!connector.connected) {
-    //   // create new session
-    //   await connector.createSession();
-    // }
-
-    // // subscribe to events
-    // await this.subscribeToEvents();
-     //  Create WalletConnect Provider
 
     // Subscribe to accounts change
     this.provider.on("accountsChanged", (accounts: string[]) => {
@@ -228,58 +211,6 @@ class App extends React.Component<any, any> {
     await this.provider.enable();
 
   };
-  // public subscribeToEvents = () => {
-  //   const { connector } = this.state;
-
-  //   if (!connector) {
-  //     return;
-  //   }
-
-  //   connector.on("session_update", async (error, payload) => {
-  //     console.log(`connector.on("session_update")`);
-
-  //     if (error) {
-  //       throw error;
-  //     }
-
-  //     const { chainId, accounts } = payload.params[0];
-  //     this.onSessionUpdate(accounts, chainId);
-  //   });
-
-  //   connector.on("connect", (error, payload) => {
-  //     console.log(`connector.on("connect")`);
-
-  //     if (error) {
-  //       throw error;
-  //     }
-
-  //     this.onConnect(payload);
-  //   });
-
-  //   connector.on("disconnect", (error, payload) => {
-  //     console.log(`connector.on("disconnect")`);
-
-  //     if (error) {
-  //       throw error;
-  //     }
-
-  //     this.onDisconnect();
-  //   });
-
-  //   if (connector.connected) {
-  //     const { chainId, accounts } = connector;
-  //     const address = accounts[0];
-  //     this.setState({
-  //       connected: true,
-  //       chainId,
-  //       accounts,
-  //       address,
-  //     });
-  //     this.onSessionUpdate(accounts, chainId);
-  //   }
-
-  //   this.setState({ connector });
-  // };
 
   public killSession = async () => {
     // const { connector } = this.state;
@@ -308,15 +239,6 @@ class App extends React.Component<any, any> {
   };
 
   public onConnect = async (accounts: string[], chainId: number) => {
-    // const { chainId, accounts } = payload.params[0];
-    // const address = accounts[0];
-    // await this.setState({
-    //   connected: true,
-    //   chainId,
-    //   accounts,
-    //   address,
-    // });
-    // this.getAccountAssets();
 
     const address = accounts[0];
 
@@ -330,16 +252,6 @@ class App extends React.Component<any, any> {
     this.getAccountAssets();
 
   };
-
-  // public onDisconnect = async () => {
-  //   this.resetApp();
-  // };
-
-  // public onSessionUpdate = async (accounts: string[], chainId: number) => {
-  //   const address = accounts[0];
-  //   await this.setState({ chainId, accounts, address });
-  //   await this.getAccountAssets();
-  // };
 
   public getAccountAssets = async () => {
     const { address, chainId } = this.state;
@@ -422,7 +334,7 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to: address,
-          value: `${value} ETH`,
+          value: `${_value} ETH`,
         };
   
         // display result
@@ -506,7 +418,7 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to: address,
-          value: `${value} PLT`,
+          value: `${_value} PLT`,
         };
   
         // display result
@@ -538,7 +450,7 @@ class App extends React.Component<any, any> {
     const message = `My email is john@doe.com - ${new Date().toUTCString()}`;
 
     // encode message (hex)
-//    const hexMsg = convertUtf8ToHex(message);
+    const hexMsg = convertUtf8ToHex(message);
 
     // eth_sign params
 //    const msgParams = [address, hexMsg];
@@ -552,10 +464,10 @@ class App extends React.Component<any, any> {
 
       const web3 = new Web3(this.provider as unknown as AbstractProvider);
 
-      const result = await web3.eth.sign(message, address)
+      const result = await web3.eth.sign(hexMsg, address)
 
       // verify signature
-      const hash = hashMessage(message);
+      const hash = hashMessage(hexMsg);
       const valid = await verifySignature(address, result, hash, chainId);
 
       // format displayed result
@@ -578,53 +490,53 @@ class App extends React.Component<any, any> {
     }
   };
 
-  public testSignTypedData = async () => {
-    const { address, chainId } = this.state;
+//   public testSignTypedData = async () => {
+//     const { address, chainId } = this.state;
 
-    if (!this.state.connected) {
-      return;
-    }
+//     if (!this.state.connected) {
+//       return;
+//     }
 
-    const message = JSON.stringify(eip712.example);
+//     const message = JSON.stringify(eip712.example);
 
-    // eth_signTypedData params
-//    const msgParams = [address, message];
+//     // eth_signTypedData params
+// //    const msgParams = [address, message];
 
-    try {
-      // open modal
-      this.toggleModal();
+//     try {
+//       // open modal
+//       this.toggleModal();
 
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
+//       // toggle pending request indicator
+//       this.setState({ pendingRequest: true });
 
-      // sign typed data
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+//       // sign typed data
+//       const web3 = new Web3(this.provider as unknown as AbstractProvider);
 
-      const result = await web3.eth.sign(message, address)
+//       const result = await web3.eth.sign(message, address)
 
-      // verify signature
-      const hash = hashTypedDataMessage(message);
-      const valid = await verifySignature(address, result, hash, chainId);
+//       // verify signature
+//       const hash = hashTypedDataMessage(message);
+//       const valid = await verifySignature(address, result, hash, chainId);
 
-      // format displayed result
-      const formattedResult = {
-        method: "eth_signTypedData",
-        address,
-        valid,
-        result,
-      };
+//       // format displayed result
+//       const formattedResult = {
+//         method: "eth_signTypedData",
+//         address,
+//         valid,
+//         result,
+//       };
 
-      // display result
-      this.setState({
-//        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({ /*connector, */pendingRequest: false, result: null });
-    }
-  };
+//       // display result
+//       this.setState({
+// //        connector,
+//         pendingRequest: false,
+//         result: formattedResult || null,
+//       });
+//     } catch (error) {
+//       console.error(error);
+//       this.setState({ /*connector, */pendingRequest: false, result: null });
+//     }
+//   };
 
   public render = () => {
     const {
@@ -674,7 +586,7 @@ class App extends React.Component<any, any> {
                       {"eth_sign"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testSignTypedData}>
+                    <STestButton left /*onClick={this.testSignTypedData}*/>
                       {"eth_signTypedData"}
                     </STestButton>
 
