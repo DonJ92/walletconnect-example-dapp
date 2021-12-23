@@ -477,7 +477,7 @@ class App extends React.Component<any, any> {
       return;
     }
 
-    //contract address
+    // contract address
     const contract = '0x0000000000000000000000000000000000000103';
 
     // from
