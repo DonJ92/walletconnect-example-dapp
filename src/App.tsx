@@ -11,20 +11,20 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { fonts } from "./styles";
-import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
-import {
-  sanitizeHex,
-  verifySignature,
-  hashTypedDataMessage,
-  hashMessage,
-} from "./helpers/utilities";
-import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
-import { IAssetData } from "./helpers/types";
+// import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
+// import {
+//   sanitizeHex,
+//   verifySignature,
+//   hashTypedDataMessage,
+//   hashMessage,
+// } from "./helpers/utilities";
+// import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
+// import { IAssetData } from "./helpers/types";
 import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
-import { eip712 } from "./helpers/eip712";
-import PLTABI from "../src/contracts/PLT.json";
-import Web3 from 'web3';
+// import { eip712 } from "./helpers/eip712";
+// import PLTABI from "../src/contracts/PLT.json";
+// import Web3 from 'web3';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
 const SLayout = styled.div`
