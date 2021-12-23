@@ -504,8 +504,7 @@ class App extends React.Component<any, any> {
 
     // data
     const jsonFile = "./contracts/PLT.json";
-    const parsed= JSON.parse(fs.readFileSync(jsonFile));
-    const PLTABI = parsed.abi;
+    const PLTABI= JSON.parse(fs.readFileSync(jsonFile).toString());
 
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const PLT = new web3.eth.Contract(PLTABI, contract);
