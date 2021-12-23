@@ -170,7 +170,7 @@ class App extends React.Component<any, any> {
       assets: [],
       address: '',
       connected: false,
-      chainId: 0,
+      chainId: parseInt('0'),
       fetching: false,
       showModal: false,
       pendingRequest: false,
