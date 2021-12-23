@@ -24,7 +24,8 @@
     "indent": ["off"],
     "no-console": ["off"],
     "no-useless-catch": ["off"],
-    "object-shorthand": ["off"]
+    "object-shorthand": ["off"],
+    "no-unused-expressions": ["off"]
   },
   "settings": {
     "react": {
