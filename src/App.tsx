@@ -212,7 +212,7 @@ class App extends React.Component<any, any> {
     provider.on("chainChanged", (chainId: number) => {
       /* eslint-disable */
       this.setState({
-        chainId: chainId
+        chainId
       });
       /* eslint-enable */
     });
