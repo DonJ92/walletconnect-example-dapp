@@ -1,4 +1,3 @@
-import * as React from "react";
 import styled from "styled-components";
 import banner from "../assets/walletconnect-banner.png";
 
