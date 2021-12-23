@@ -14,9 +14,9 @@ import { fonts } from "./styles";
 import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
 import {
   sanitizeHex,
-//  verifySignature,
+  verifySignature,
 //  hashTypedDataMessage,
-//  hashMessage,
+  hashMessage,
 } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 // import { IAssetData } from "./helpers/types";
@@ -528,7 +528,7 @@ class App extends React.Component<any, any> {
   };
 
   public testSignMessage = async () => {
-    const { address/*, chainId*/ } = this.state;
+    const { address, chainId } = this.state;
 
     if (!this.state.connected) {
       return;
@@ -555,25 +555,25 @@ class App extends React.Component<any, any> {
       web3.eth.sign(message, address)
       .then((res: any) => {
         console.log(res);
-/*
+
         // verify signature
         const hash = hashMessage(message);
-        const valid = await verifySignature(address, result, hash, chainId);
+        const valid = verifySignature(address, res, hash, chainId);
 
         // format displayed result
         const formattedResult = {
           method: "eth_sign",
           address,
           valid,
-          result,
+          res,
         };
 
         // display result
         this.setState({
-          connector,
+//          connector,
           pendingRequest: false,
           result: formattedResult || null,
-        });*/
+        });
       })
       .catch((err: any) => {
         console.log(err);
