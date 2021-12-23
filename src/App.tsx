@@ -163,6 +163,12 @@ class App extends React.Component<any, any> {
   //   ...INITIAL_STATE,
   // };
 
+  public provider: WalletConnectProvider = new WalletConnectProvider({
+    rpc: {
+      101: "https://testnet.palette-rpc.com:22000",
+    },
+  });
+
   constructor(props: any) {
     super(props);
 
@@ -197,19 +203,13 @@ class App extends React.Component<any, any> {
     // await this.subscribeToEvents();
      //  Create WalletConnect Provider
 
-    const provider = new WalletConnectProvider({
-      rpc: {
-        101: "https://testnet.palette-rpc.com:22000",
-      },
-    });
-
     // Subscribe to accounts change
-    provider.on("accountsChanged", (accounts: string[]) => {
+    this.provider.on("accountsChanged", (accounts: string[]) => {
       this.onConnect(accounts, 101);
     });
 
     // Subscribe to chainId change
-    provider.on("chainChanged", (chainId: number) => {
+    this.provider.on("chainChanged", (chainId: number) => {
       /* eslint-disable */
       this.setState({
         chainId
@@ -218,12 +218,12 @@ class App extends React.Component<any, any> {
     });
 
     // Subscribe to session disconnection
-    provider.on("disconnect", (code: number, reason: string) => {
+    this.provider.on("disconnect", (code: number, reason: string) => {
       console.log(code, reason);
     });
 
     //  Enable session (triggers QR Code modal)
-    await provider.enable();
+    await this.provider.enable();
 
   };
   // public subscribeToEvents = () => {
@@ -285,12 +285,25 @@ class App extends React.Component<any, any> {
     //   connector.killSession();
     // }
     // this.resetApp();
-    console.log('killSession');
+    
+    await this.provider.disconnect();
+    this.resetApp();
   };
 
-  // public resetApp = async () => {
-  //   await this.setState({ ...INITIAL_STATE });
-  // };
+  public resetApp = async () => {
+    // await this.setState({ ...INITIAL_STATE });
+
+    this.setState({
+      assets: [],
+      address: '',
+      connected: false,
+      chainId: 1,
+      fetching: false,
+      showModal: false,
+      pendingRequest: false,
+      result: null
+    })
+  };
 
   public onConnect = async (accounts: string[], chainId: number) => {
     // const { chainId, accounts } = payload.params[0];
