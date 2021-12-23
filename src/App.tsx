@@ -201,7 +201,7 @@ class App extends React.Component<any, any> {
 
     // Subscribe to accounts change
     provider.on("accountsChanged", (accounts: string[]) => {
-      this.state.address = accounts[0];
+      this.onConnect(accounts, 101);
     });
 
     // Subscribe to chainId change
