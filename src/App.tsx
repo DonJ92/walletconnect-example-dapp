@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "@walletconnect/qrcode-modal";
@@ -174,6 +175,19 @@ class App extends React.Component<any, any> {
     result: null
   }
 
+  componentDidMount() {
+    this.state = {
+      assets: [],
+      address: '',
+      connected: false,
+      chainId: 0,
+      fetching: false,
+      showModal: false,
+      pendingRequest: false,
+      result: null
+    }
+  }
+
   public connect = async () => {
     // // bridge url
     // const bridge = "https://bridge.walletconnect.org";
@@ -206,7 +220,9 @@ class App extends React.Component<any, any> {
 
     // Subscribe to chainId change
     provider.on("chainChanged", (chainId: number) => {
-      this.state.chainId = chainId;
+      this.setState({
+        chainId: chainId
+      });
     });
 
     // Subscribe to session disconnection
@@ -297,12 +313,12 @@ class App extends React.Component<any, any> {
 
     const address = accounts[0];
 
-    await this.setState({
+    this.setState({
       connected: true,
-      chainId,
-      accounts,
-      address,
-    })
+      chainId: chainId,
+      accounts: accounts,
+      address: address,
+    });
 
   };
 
