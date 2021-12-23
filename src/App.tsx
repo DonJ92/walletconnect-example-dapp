@@ -163,18 +163,9 @@ class App extends React.Component<any, any> {
   //   ...INITIAL_STATE,
   // };
 
-  public state = {
-    assets: [],
-    address: '',
-    connected: false,
-    chainId: 0,
-    fetching: false,
-    showModal: false,
-    pendingRequest: false,
-    result: null
-  }
+  constructor(props: any) {
+    super(props);
 
-  componentDidMount() {
     this.state = {
       assets: [],
       address: '',
