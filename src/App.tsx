@@ -166,11 +166,13 @@ class App extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
 
+    const chainId: number = 0;
+
     this.state = {
       assets: [],
       address: '',
       connected: false,
-      chainId: parseInt('0'),
+      chainId: chainId,
       fetching: false,
       showModal: false,
       pendingRequest: false,
