@@ -24,6 +24,8 @@ import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 import { eip712 } from "./helpers/eip712";
 import PLTABI from "../src/contracts/PLT.json";
+import Web3 from 'web3';
+import WalletConnectProvider from '@walletconnect/web3-provider';
 
 const SLayout = styled.div`
   position: relative;
