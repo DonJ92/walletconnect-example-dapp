@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "@walletconnect/qrcode-modal";
-import { convertUtf8ToHex } from "@walletconnect/utils";
+//import { convertUtf8ToHex } from "@walletconnect/utils";
 // import { IInternalEvent } from "@walletconnect/types";
 import Button from "./components/Button";
 import Column from "./components/Column";
@@ -14,9 +14,9 @@ import { fonts } from "./styles";
 import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
 import {
   sanitizeHex,
-  verifySignature,
-  hashTypedDataMessage,
-  hashMessage,
+//  verifySignature,
+//  hashTypedDataMessage,
+//  hashMessage,
 } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 // import { IAssetData } from "./helpers/types";
