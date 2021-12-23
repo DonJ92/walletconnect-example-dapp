@@ -168,6 +168,7 @@ class App extends React.Component<any, any> {
 
     const chainId: number = 0;
 
+    /* eslint-disable */
     this.state = {
       assets: [],
       address: '',
@@ -178,6 +179,7 @@ class App extends React.Component<any, any> {
       pendingRequest: false,
       result: null
     }
+    /* eslint-enable */
   }
 
   public connect = async () => {
