@@ -26,7 +26,7 @@ import AccountAssets from "./components/AccountAssets";
 import Web3 from 'web3';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import * as fs, { readFileSync } from 'fs';
+import * as fs from 'fs';
 
 const SLayout = styled.div`
   position: relative;
