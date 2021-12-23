@@ -26,6 +26,7 @@ import AccountAssets from "./components/AccountAssets";
 import Web3 from 'web3';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import * as fs, { readFileSync } from 'fs';
 
 const SLayout = styled.div`
   position: relative;
@@ -502,7 +503,6 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const fs = require('fs');
     const jsonFile = "./contracts/PLT.json";
     const parsed= JSON.parse(fs.readFileSync(jsonFile));
     const PLTABI = parsed.abi;
