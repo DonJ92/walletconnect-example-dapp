@@ -163,6 +163,17 @@ class App extends React.Component<any, any> {
   //   ...INITIAL_STATE,
   // };
 
+  public state = {
+    assets: [],
+    address: '',
+    connected: false,
+    chainId: 0,
+    fetching: false,
+    showModal: false,
+    pendingRequest: false,
+    result: null
+  }
+
   public connect = async () => {
     // // bridge url
     // const bridge = "https://bridge.walletconnect.org";
@@ -535,17 +546,6 @@ class App extends React.Component<any, any> {
   //     this.setState({ connector, pendingRequest: false, result: null });
   //   }
   // };
-
-  public state = {
-    assets: [],
-    address: '',
-    connected: false,
-    chainId: 0,
-    fetching: false,
-    showModal: false,
-    pendingRequest: false,
-    result: null
-  }
 
   public render = () => {
     const {
