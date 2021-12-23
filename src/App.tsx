@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import styled from "styled-components";
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "@walletconnect/qrcode-modal";
