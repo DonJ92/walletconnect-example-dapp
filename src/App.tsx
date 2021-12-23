@@ -166,20 +166,16 @@ class App extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
 
-    const chainId: number = 0;
-
-    /* eslint-disable */
     this.state = {
       assets: [],
       address: '',
       connected: false,
-      chainId: chainId,
+      chainId: 1,
       fetching: false,
       showModal: false,
       pendingRequest: false,
       result: null
     }
-    /* eslint-enable */
   }
 
   public connect = async () => {
