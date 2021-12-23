@@ -11,20 +11,21 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { fonts } from "./styles";
-import { apiGetAccountAssets/*, apiGetGasPrices, apiGetAccountNonce*/ } from "./helpers/api";
-// import {
-//   sanitizeHex,
-//   verifySignature,
-//   hashTypedDataMessage,
-//   hashMessage,
-// } from "./helpers/utilities";
-// import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
+import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
+import {
+  sanitizeHex,
+  // verifySignature,
+  // hashTypedDataMessage,
+  // hashMessage,
+} from "./helpers/utilities";
+import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 // import { IAssetData } from "./helpers/types";
 import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 // import { eip712 } from "./helpers/eip712";
 // import PLTABI from "../src/contracts/PLT.json";
-// import Web3 from 'web3';
+import Web3 from 'web3';
+import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
 const SLayout = styled.div`
@@ -355,81 +356,114 @@ class App extends React.Component<any, any> {
 
   public toggleModal = () => this.setState({ showModal: !this.state.showModal });
 
-  // public testSendTransaction = async () => {
-  //   const { connector, address, chainId } = this.state;
+  public testSendTransaction = async () => {
+    const { connector, address, chainId } = this.state;
 
-  //   if (!connector) {
-  //     return;
-  //   }
+    if (!connector) {
+      return;
+    }
 
-  //   // from
-  //   const from = address;
+    // from
+    const from = address;
 
-  //   // to
-  //   const to = address;
+    // to
+    const to = address;
 
-  //   // nonce
-  //   const _nonce = await apiGetAccountNonce(address, chainId);
-  //   const nonce = sanitizeHex(convertStringToHex(_nonce));
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
 
-  //   // gasPrice
-  //   const gasPrices = await apiGetGasPrices();
-  //   let _gasPrice = gasPrices.slow.price;
-  //   _gasPrice = 0;
-  //   const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
-  //   // gasLimit
-  //   const _gasLimit = 0;
-  //   const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
+    // gasLimit
+    const _gasLimit = 0;
+    const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
 
-  //   // value
-  //   const _value = 0;
-  //   const value = sanitizeHex(convertStringToHex(_value));
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
 
-  //   // data
-  //   const data = "0x";
+    // data
+    const data = "0x";
 
-  //   // test transaction
-  //   const tx = {
-  //     from,
-  //     to,
-  //     nonce,
-  //     gasPrice,
-  //     gasLimit,
-  //     value,
-  //     data,
-  //   };
+    // test transaction
+    // const tx = {
+    //   from,
+    //   to,
+    //   nonce,
+    //   gasPrice,
+    //   gasLimit,
+    //   value,
+    //   data,
+    // };
 
-  //   try {
-  //     // open modal
-  //     this.toggleModal();
+    const tx: TransactionConfig = {
+      from,
+      to,
+      value,
+      data,
+      gasPrice
+    };
 
-  //     // toggle pending request indicator
-  //     this.setState({ pendingRequest: true });
+    try {
+      // open modal
+      this.toggleModal();
 
-  //     // send transaction
-  //     const result = await connector.sendTransaction(tx);
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
 
-  //     // format displayed result
-  //     const formattedResult = {
-  //       method: "eth_sendTransaction",
-  //       txHash: result,
-  //       from: address,
-  //       to: address,
-  //       value: "0 ETH",
-  //     };
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      web3.eth.sendTransaction(tx)
+      .then((res: any) => {
+        console.log(res);
 
-  //     // display result
-  //     this.setState({
-  //       connector,
-  //       pendingRequest: false,
-  //       result: formattedResult || null,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     this.setState({ connector, pendingRequest: false, result: null });
-  //   }
-  // };
+        const formattedResult = {
+          method: "eth_sendTransaction",
+          txHash: res.transactionHash,
+          from: address,
+          to: address,
+          value: `${value} ETH`,
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+      // send transaction
+      // const result = await connector.sendTransaction(tx);
+
+      // format displayed result
+      // const formattedResult = {
+      //   method: "eth_sendTransaction",
+      //   txHash: result,
+      //   from: address,
+      //   to: address,
+      //   value: "0 ETH",
+      // };
+
+      // // display result
+      // this.setState({
+      //   connector,
+      //   pendingRequest: false,
+      //   result: formattedResult || null,
+      // });
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
 
   // public testSignMessage = async () => {
   //   const { connector, address, chainId } = this.state;
