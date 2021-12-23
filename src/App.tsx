@@ -15,14 +15,14 @@ import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./help
 import {
   sanitizeHex,
   verifySignature,
-//  hashTypedDataMessage,
+  hashTypedDataMessage,
   hashMessage,
 } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 // import { IAssetData } from "./helpers/types";
 import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
-// import { eip712 } from "./helpers/eip712";
+import { eip712 } from "./helpers/eip712";
 import Web3 from 'web3';
 import {AbiItem} from 'web3-utils';
 import PLTABI from './contracts/PLT.json';
@@ -552,18 +552,18 @@ class App extends React.Component<any, any> {
 
       const web3 = new Web3(this.provider as unknown as AbstractProvider);
 
-      const res = await web3.eth.sign(message, address)
+      const result = await web3.eth.sign(message, address)
 
       // verify signature
       const hash = hashMessage(message);
-      const valid = await verifySignature(address, res, hash, chainId);
+      const valid = await verifySignature(address, result, hash, chainId);
 
       // format displayed result
       const formattedResult = {
         method: "eth_sign",
         address,
         valid,
-        res,
+        result,
       };
 
       // display result
@@ -578,51 +578,53 @@ class App extends React.Component<any, any> {
     }
   };
 
-  // public testSignTypedData = async () => {
-  //   const { connector, address, chainId } = this.state;
+  public testSignTypedData = async () => {
+    const { address, chainId } = this.state;
 
-  //   if (!connector) {
-  //     return;
-  //   }
+    if (!this.state.connected) {
+      return;
+    }
 
-  //   const message = JSON.stringify(eip712.example);
+    const message = JSON.stringify(eip712.example);
 
-  //   // eth_signTypedData params
-  //   const msgParams = [address, message];
+    // eth_signTypedData params
+//    const msgParams = [address, message];
 
-  //   try {
-  //     // open modal
-  //     this.toggleModal();
+    try {
+      // open modal
+      this.toggleModal();
 
-  //     // toggle pending request indicator
-  //     this.setState({ pendingRequest: true });
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
 
-  //     // sign typed data
-  //     const result = await connector.signTypedData(msgParams);
+      // sign typed data
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
 
-  //     // verify signature
-  //     const hash = hashTypedDataMessage(message);
-  //     const valid = await verifySignature(address, result, hash, chainId);
+      const result = await web3.eth.sign(message, address)
 
-  //     // format displayed result
-  //     const formattedResult = {
-  //       method: "eth_signTypedData",
-  //       address,
-  //       valid,
-  //       result,
-  //     };
+      // verify signature
+      const hash = hashTypedDataMessage(message);
+      const valid = await verifySignature(address, result, hash, chainId);
 
-  //     // display result
-  //     this.setState({
-  //       connector,
-  //       pendingRequest: false,
-  //       result: formattedResult || null,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     this.setState({ connector, pendingRequest: false, result: null });
-  //   }
-  // };
+      // format displayed result
+      const formattedResult = {
+        method: "eth_signTypedData",
+        address,
+        valid,
+        result,
+      };
+
+      // display result
+      this.setState({
+//        connector,
+        pendingRequest: false,
+        result: formattedResult || null,
+      });
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
 
   public render = () => {
     const {
@@ -672,7 +674,7 @@ class App extends React.Component<any, any> {
                       {"eth_sign"}
                     </STestButton>
 
-                    <STestButton left /*onClick={this.testSignTypedData}*/>
+                    <STestButton left onClick={this.testSignTypedData}>
                       {"eth_signTypedData"}
                     </STestButton>
 
