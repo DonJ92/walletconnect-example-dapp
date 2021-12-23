@@ -24,7 +24,8 @@ import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 // import { eip712 } from "./helpers/eip712";
 import Web3 from 'web3';
-// import PLTABI from './contracts/PLT.json';
+import {ABIItem} from 'web3-utils';
+import PLTABI from './contracts/PLT.json';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
@@ -507,7 +508,7 @@ class App extends React.Component<any, any> {
     // const PLTABI= JSON.parse(fs.readFileSync(jsonFile).toString());
 
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const PLT = new web3.eth.Contract(require('./contracts/PLT.json'), contract);
+    const PLT = new web3.eth.Contract(PLTABI as ABIItem[], contract);
     const data = PLT.methods.transferFrom(from, from, value).encodeABI({from});
 
     const tx: TransactionConfig = {
