@@ -418,10 +418,10 @@ class App extends React.Component<any, any> {
 
       const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
-      .once('sending', function(payload: any){ console.log('sending') })
-      .once('sent', function(payload: any){ console.log('sent') })
-      .once('transactionHash', function(hash: string){ console.log(hash) })
-      .once('receipt', function(receipt: any){ console.log(receipt) })
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
       .then((res: any) => {
         console.log(res);
 
