@@ -552,33 +552,26 @@ class App extends React.Component<any, any> {
 
       const web3 = new Web3(this.provider as unknown as AbstractProvider);
 
-      web3.eth.sign(message, address)
-      .then((res: any) => {
-        console.log(res);
+      const res = await web3.eth.sign(message, address)
 
-        // verify signature
-        const hash = hashMessage(message);
-        const valid = verifySignature(address, res, hash, chainId);
+      // verify signature
+      const hash = hashMessage(message);
+      const valid = await verifySignature(address, res, hash, chainId);
 
-        // format displayed result
-        const formattedResult = {
-          method: "eth_sign",
-          address,
-          valid,
-          res,
-        };
+      // format displayed result
+      const formattedResult = {
+        method: "eth_sign",
+        address,
+        valid,
+        res,
+      };
 
-        // display result
-        this.setState({
+      // display result
+      this.setState({
 //          connector,
-          pendingRequest: false,
-          result: formattedResult || null,
-        });
-      })
-      .catch((err: any) => {
-        console.log(err);
-        this.setState({ /*connector, */pendingRequest: false, result: null });
-      })
+        pendingRequest: false,
+        result: formattedResult || null,
+      });
     } catch (error) {
       console.error(error);
       this.setState({ /*connector, */pendingRequest: false, result: null });
