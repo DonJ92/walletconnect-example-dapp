@@ -11,7 +11,7 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { fonts } from "./styles";
-// import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
+import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
 // import {
 //   sanitizeHex,
 //   verifySignature,
@@ -201,12 +201,12 @@ class App extends React.Component<any, any> {
 
     // Subscribe to accounts change
     provider.on("accountsChanged", (accounts: string[]) => {
-      console.log(accounts);
+      this.state.address = accounts[0];
     });
 
     // Subscribe to chainId change
     provider.on("chainChanged", (chainId: number) => {
-      console.log(chainId);
+      this.state.chainId = chainId;
     });
 
     // Subscribe to session disconnection
@@ -284,17 +284,27 @@ class App extends React.Component<any, any> {
   //   await this.setState({ ...INITIAL_STATE });
   // };
 
-  // public onConnect = async (payload: IInternalEvent) => {
-  //   const { chainId, accounts } = payload.params[0];
-  //   const address = accounts[0];
-  //   await this.setState({
-  //     connected: true,
-  //     chainId,
-  //     accounts,
-  //     address,
-  //   });
-  //   this.getAccountAssets();
-  // };
+  public onConnect = async (accounts: string[], chainId: number) => {
+    // const { chainId, accounts } = payload.params[0];
+    // const address = accounts[0];
+    // await this.setState({
+    //   connected: true,
+    //   chainId,
+    //   accounts,
+    //   address,
+    // });
+    // this.getAccountAssets();
+
+    const address = accounts[0];
+
+    await this.setState({
+      connected: true,
+      chainId,
+      accounts,
+      address,
+    })
+
+  };
 
   // public onDisconnect = async () => {
   //   this.resetApp();
@@ -306,19 +316,19 @@ class App extends React.Component<any, any> {
   //   await this.getAccountAssets();
   // };
 
-  // public getAccountAssets = async () => {
-  //   const { address, chainId } = this.state;
-  //   this.setState({ fetching: true });
-  //   try {
-  //     // get account balances
-  //     const assets = await apiGetAccountAssets(address, chainId);
+  public getAccountAssets = async () => {
+    const { address, chainId } = this.state;
+    this.setState({ fetching: true });
+    try {
+      // get account balances
+      const assets = await apiGetAccountAssets(address, chainId);
 
-  //     await this.setState({ fetching: false, address, assets });
-  //   } catch (error) {
-  //     console.error(error);
-  //     await this.setState({ fetching: false });
-  //   }
-  // };
+      await this.setState({ fetching: false, address, assets });
+    } catch (error) {
+      console.error(error);
+      await this.setState({ fetching: false });
+    }
+  };
 
   public toggleModal = () => this.setState({ showModal: !this.state.showModal });
 
