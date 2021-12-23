@@ -11,7 +11,7 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { fonts } from "./styles";
-import { apiGetAccountAssets, apiGetGasPrices/*, apiGetAccountNonce*/ } from "./helpers/api";
+import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
 import {
   sanitizeHex,
   // verifySignature,
@@ -370,8 +370,8 @@ class App extends React.Component<any, any> {
     const to = address;
 
     // nonce
-    // const _nonce = await apiGetAccountNonce(address, chainId);
-    // const nonce = sanitizeHex(convertStringToHex(_nonce));
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
@@ -402,11 +402,13 @@ class App extends React.Component<any, any> {
     // };
 
     const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
       from,
       to,
       value,
       data,
-      gasPrice
+      gasPrice,
+      gas: 0
     };
 
     try {
