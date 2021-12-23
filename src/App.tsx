@@ -654,7 +654,7 @@ class App extends React.Component<any, any> {
                 <h3>Actions</h3>
                 <Column center>
                   <STestButtonContainer>
-                    <STestButton left /*onClick={this.testSendTransaction}*/>
+                    <STestButton left onClick={this.testSendTransaction}>
                       {"eth_sendTransaction"}
                     </STestButton>
 
