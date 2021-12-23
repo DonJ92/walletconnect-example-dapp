@@ -1,3 +1,4 @@
+import * as React from "react";
 import * as PropTypes from "prop-types";
 import Icon from "./Icon";
 import erc20 from "../assets/erc20.svg";

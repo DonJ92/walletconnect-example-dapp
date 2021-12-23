@@ -1,3 +1,4 @@
+import * as React from "react";
 import Column from "./Column";
 import AssetRow from "./AssetRow";
 import { IAssetData } from "../helpers/types";
