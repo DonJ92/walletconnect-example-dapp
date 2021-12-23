@@ -24,7 +24,7 @@ import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 // import { eip712 } from "./helpers/eip712";
 import Web3 from 'web3';
-import PLTABI from './contracts/PLT.json';
+// import PLTABI from './contracts/PLT.json';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
