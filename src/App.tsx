@@ -26,7 +26,7 @@ import AccountAssets from "./components/AccountAssets";
 import Web3 from 'web3';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import { readFileSync } from 'fs';
+import * as fs from 'fs';
 
 const SLayout = styled.div`
   position: relative;
@@ -504,7 +504,7 @@ class App extends React.Component<any, any> {
 
     // data
     const jsonFile = "./contracts/PLT.json";
-    const PLTABI= JSON.parse(readFileSync(jsonFile).toString());
+    const PLTABI= JSON.parse(fs.readFileSync(jsonFile).toString());
 
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const PLT = new web3.eth.Contract(PLTABI, contract);
