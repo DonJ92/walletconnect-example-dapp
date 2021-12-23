@@ -318,14 +318,14 @@ class App extends React.Component<any, any> {
 
     const address = accounts[0];
 
-    /* eslint-disable */
     this.setState({
       connected: true,
       chainId,
       accounts,
       address,
     });
-    /* eslint-enable */
+
+    this.getAccountAssets();
 
   };
 
