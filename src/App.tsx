@@ -210,9 +210,11 @@ class App extends React.Component<any, any> {
 
     // Subscribe to chainId change
     provider.on("chainChanged", (chainId: number) => {
+      /* eslint-disable */
       this.setState({
         chainId: chainId
       });
+      /* eslint-enable */
     });
 
     // Subscribe to session disconnection
