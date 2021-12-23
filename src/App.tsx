@@ -11,7 +11,7 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { fonts } from "./styles";
-import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
+import { apiGetAccountAssets, apiGetGasPrices/*, apiGetAccountNonce*/ } from "./helpers/api";
 import {
   sanitizeHex,
   // verifySignature,
@@ -357,7 +357,7 @@ class App extends React.Component<any, any> {
   public toggleModal = () => this.setState({ showModal: !this.state.showModal });
 
   public testSendTransaction = async () => {
-    const { connector, address, chainId } = this.state;
+    const { connector, address/*, chainId*/ } = this.state;
 
     if (!connector) {
       return;
@@ -370,8 +370,8 @@ class App extends React.Component<any, any> {
     const to = address;
 
     // nonce
-    const _nonce = await apiGetAccountNonce(address, chainId);
-    const nonce = sanitizeHex(convertStringToHex(_nonce));
+    // const _nonce = await apiGetAccountNonce(address, chainId);
+    // const nonce = sanitizeHex(convertStringToHex(_nonce));
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
@@ -380,8 +380,8 @@ class App extends React.Component<any, any> {
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
     // gasLimit
-    const _gasLimit = 0;
-    const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
+    // const _gasLimit = 0;
+    // const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
 
     // value
     const _value = 0;
