@@ -5,7 +5,7 @@
     "@typescript-eslint/explicit-function-return-type": ["off"],
     "@typescript-eslint/interface-name-prefix": ["off"],
     "@typescript-eslint/no-explicit-any": ["off"],
-    "@typescript-eslint/no-unused-expressions": 0,
+    "@typescript-eslint/no-unused-expressions": ["off"],
     "@typescript-eslint/no-var-requires": ["off"],
     "@typescript-eslint/no-use-before-define": ["off"],
     "@typescript-eslint/no-unused-vars": ["off"],
@@ -25,7 +25,7 @@
     "no-console": ["off"],
     "no-useless-catch": ["off"],
     "object-shorthand": ["off"],
-    "no-unused-expressions": 0
+    "no-unused-expressions": "off"
   },
   "settings": {
     "react": {
