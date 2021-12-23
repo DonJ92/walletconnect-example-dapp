@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build/dist",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es5",
     "lib": ["es7", "dom"],
     "sourceMap": true,
@@ -20,10 +20,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "resolveJsonModule": true,
-    "types": ["react", "jest"],
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "types": ["react", "jest"]
   },
   "exclude": [
     "node_modules",

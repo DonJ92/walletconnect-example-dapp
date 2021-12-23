@@ -24,9 +24,9 @@ import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 // import { eip712 } from "./helpers/eip712";
 import Web3 from 'web3';
+import PLTABI from './contracts/PLT.json';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import * as fs from 'fs';
 
 const SLayout = styled.div`
   position: relative;
@@ -503,8 +503,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const jsonFile = "./contracts/PLT.json";
-    const PLTABI= JSON.parse(fs.readFileSync(jsonFile).toString());
+    // const jsonFile = "./contracts/PLT.json";
+    // const PLTABI= JSON.parse(fs.readFileSync(jsonFile).toString());
 
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const PLT = new web3.eth.Contract(PLTABI, contract);
