@@ -707,7 +707,7 @@ class App extends React.Component<any, any> {
                 {Object.keys(result).map(key => (
                   <SRow key={key}>
                     <SKey>{key}</SKey>
-                    <SValue>{/*result[key].toString()*/}</SValue>
+                    <SValue>{result[key].toString()}</SValue>
                   </SRow>
                 ))}
               </STable>
