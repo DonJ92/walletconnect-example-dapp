@@ -23,7 +23,7 @@ import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumbe
 import Banner from "./components/Banner";
 import AccountAssets from "./components/AccountAssets";
 // import { eip712 } from "./helpers/eip712";
-// import PLTABI from "../src/contracts/PLT.json";
+import PLTABI from "../src/contracts/PLT.json";
 import Web3 from 'web3';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -471,6 +471,112 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testPltSendTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    //contract address
+    const contract = '0x0000000000000000000000000000000000000103';
+
+    // from
+    const from = address;
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // gasLimit
+    // const _gasLimit = 0;
+    // const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const PLT = new web3.eth.Contract(PLTABI, contract);
+    const data = PLT.methods.transferFrom(from, from, value).encodeABI({from});
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to: contract,
+      value,
+      data,
+      gasPrice,
+      gas: 0
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "transfer plt",
+          txHash: res.transactionHash,
+          from: address,
+          to: address,
+          value: `${value} ETH`,
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+      // send transaction
+      // const result = await connector.sendTransaction(tx);
+
+      // format displayed result
+      // const formattedResult = {
+      //   method: "eth_sendTransaction",
+      //   txHash: result,
+      //   from: address,
+      //   to: address,
+      //   value: "0 ETH",
+      // };
+
+      // // display result
+      // this.setState({
+      //   connector,
+      //   pendingRequest: false,
+      //   result: formattedResult || null,
+      // });
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
+
   // public testSignMessage = async () => {
   //   const { connector, address, chainId } = this.state;
 
@@ -672,7 +778,7 @@ class App extends React.Component<any, any> {
                       {"eth_signTypedData"}
                     </STestButton>
 
-                    <STestButton left /*onClick={this.testPltSendTransaction}*/>
+                    <STestButton left onClick={this.testPltSendTransaction}>
                       {"plt_sendTransaction"}
                     </STestButton>
                   </STestButtonContainer>
