@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 // import WalletConnect from "@walletconnect/client";
 // import QRCodeModal from "@walletconnect/qrcode-modal";
-// import { convertUtf8ToHex } from "@walletconnect/utils";
+import { convertUtf8ToHex } from "@walletconnect/utils";
 // import { IInternalEvent } from "@walletconnect/types";
 import Button from "./components/Button";
 import Column from "./components/Column";
@@ -14,9 +14,9 @@ import { fonts } from "./styles";
 import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
 import {
   sanitizeHex,
-  // verifySignature,
-  // hashTypedDataMessage,
-  // hashMessage,
+  verifySignature,
+  hashTypedDataMessage,
+  hashMessage,
 } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 // import { IAssetData } from "./helpers/types";
@@ -391,17 +391,6 @@ class App extends React.Component<any, any> {
     // data
     const data = "0x";
 
-    // test transaction
-    // const tx = {
-    //   from,
-    //   to,
-    //   nonce,
-    //   gasPrice,
-    //   gasLimit,
-    //   value,
-    //   data,
-    // };
-
     const tx: TransactionConfig = {
       nonce: parseInt(nonce, 16),
       from,
@@ -448,24 +437,6 @@ class App extends React.Component<any, any> {
         this.setState({ /*connector, */pendingRequest: false, result: null });
       })
 
-      // send transaction
-      // const result = await connector.sendTransaction(tx);
-
-      // format displayed result
-      // const formattedResult = {
-      //   method: "eth_sendTransaction",
-      //   txHash: result,
-      //   from: address,
-      //   to: address,
-      //   value: "0 ETH",
-      // };
-
-      // // display result
-      // this.setState({
-      //   connector,
-      //   pendingRequest: false,
-      //   result: formattedResult || null,
-      // });
     } catch (error) {
       console.error(error);
       this.setState({ /*connector, */pendingRequest: false, result: null });
@@ -495,18 +466,11 @@ class App extends React.Component<any, any> {
     _gasPrice = 0;
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
-    // gasLimit
-    // const _gasLimit = 0;
-    // const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
-
     // value
     const _value = 0;
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    // const jsonFile = "./contracts/PLT.json";
-    // const PLTABI= JSON.parse(fs.readFileSync(jsonFile).toString());
-
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.transferFrom(from, from, value).encodeABI({from});
@@ -542,7 +506,7 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to: address,
-          value: `${value} ETH`,
+          value: `${value} PLT`,
         };
   
         // display result
@@ -557,79 +521,69 @@ class App extends React.Component<any, any> {
         this.setState({ /*connector, */pendingRequest: false, result: null });
       })
 
-      // send transaction
-      // const result = await connector.sendTransaction(tx);
-
-      // format displayed result
-      // const formattedResult = {
-      //   method: "eth_sendTransaction",
-      //   txHash: result,
-      //   from: address,
-      //   to: address,
-      //   value: "0 ETH",
-      // };
-
-      // // display result
-      // this.setState({
-      //   connector,
-      //   pendingRequest: false,
-      //   result: formattedResult || null,
-      // });
     } catch (error) {
       console.error(error);
       this.setState({ /*connector, */pendingRequest: false, result: null });
     }
   };
 
-  // public testSignMessage = async () => {
-  //   const { connector, address, chainId } = this.state;
+  public testSignMessage = async () => {
+    const { connector, address/*, chainId*/ } = this.state;
 
-  //   if (!connector) {
-  //     return;
-  //   }
+    if (!connector) {
+      return;
+    }
 
-  //   // test message
-  //   const message = `My email is john@doe.com - ${new Date().toUTCString()}`;
+    // test message
+    const message = `My email is john@doe.com - ${new Date().toUTCString()}`;
 
-  //   // encode message (hex)
-  //   const hexMsg = convertUtf8ToHex(message);
+    // encode message (hex)
+//    const hexMsg = convertUtf8ToHex(message);
 
-  //   // eth_sign params
-  //   const msgParams = [address, hexMsg];
+    // eth_sign params
+//    const msgParams = [address, hexMsg];
 
-  //   try {
-  //     // open modal
-  //     this.toggleModal();
+    try {
+      // open modal
+      this.toggleModal();
 
-  //     // toggle pending request indicator
-  //     this.setState({ pendingRequest: true });
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
 
-  //     // send message
-  //     const result = await connector.signMessage(msgParams);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
 
-  //     // verify signature
-  //     const hash = hashMessage(message);
-  //     const valid = await verifySignature(address, result, hash, chainId);
+      web3.eth.sign(message, address)
+      .then((res: any) => {
+        console.log(res);
+/*
+        // verify signature
+        const hash = hashMessage(message);
+        const valid = await verifySignature(address, result, hash, chainId);
 
-  //     // format displayed result
-  //     const formattedResult = {
-  //       method: "eth_sign",
-  //       address,
-  //       valid,
-  //       result,
-  //     };
+        // format displayed result
+        const formattedResult = {
+          method: "eth_sign",
+          address,
+          valid,
+          result,
+        };
 
-  //     // display result
-  //     this.setState({
-  //       connector,
-  //       pendingRequest: false,
-  //       result: formattedResult || null,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     this.setState({ connector, pendingRequest: false, result: null });
-  //   }
-  // };
+        // display result
+        this.setState({
+          connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });*/
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
 
   // public testSignTypedData = async () => {
   //   const { connector, address, chainId } = this.state;
@@ -663,59 +617,6 @@ class App extends React.Component<any, any> {
   //       address,
   //       valid,
   //       result,
-  //     };
-
-  //     // display result
-  //     this.setState({
-  //       connector,
-  //       pendingRequest: false,
-  //       result: formattedResult || null,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     this.setState({ connector, pendingRequest: false, result: null });
-  //   }
-  // };
-
-  // public testPltSendTransaction = async () => {
-  //   const { connector, address } = this.state;
-
-  //   if (!connector) {
-  //     return;
-  //   }
-
-  //   const _value = 0;
-  //   const customRequest = {
-  //     id: 1337,
-  //     jsonrpc: "2.0",
-  //     method: "plt_sendTransaction",
-  //     params: [
-  //       {
-  //         from: address,
-  //         to: address,
-  //         value: sanitizeHex(convertStringToHex(_value)),
-  //       },
-  //     ],
-  //   };
-    
-
-  //   try {
-  //     // open modal
-  //     this.toggleModal();
-
-  //     // toggle pending request indicator
-  //     this.setState({ pendingRequest: true });
-
-  //     // send transaction
-  //     const result = await connector.sendCustomRequest(customRequest);
-
-  //     // format displayed result
-  //     const formattedResult = {
-  //       method: "plt_sendTransaction",
-  //       txHash: result,
-  //       from: address,
-  //       to: address,
-  //       value: "0 PLT",
   //     };
 
   //     // display result
