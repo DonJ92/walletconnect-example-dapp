@@ -1,9 +1,9 @@
 import * as React from "react";
 import styled from "styled-components";
-import WalletConnect from "@walletconnect/client";
-import QRCodeModal from "@walletconnect/qrcode-modal";
-import { convertUtf8ToHex } from "@walletconnect/utils";
-import { IInternalEvent } from "@walletconnect/types";
+// import WalletConnect from "@walletconnect/client";
+// import QRCodeModal from "@walletconnect/qrcode-modal";
+// import { convertUtf8ToHex } from "@walletconnect/utils";
+// import { IInternalEvent } from "@walletconnect/types";
 import Button from "./components/Button";
 import Column from "./components/Column";
 import Wrapper from "./components/Wrapper";
@@ -130,384 +130,411 @@ const STestButton = styled(Button as any)`
   margin: 12px;
 `;
 
-interface IAppState {
-  connector: WalletConnect | null;
-  fetching: boolean;
-  connected: boolean;
-  chainId: number;
-  showModal: boolean;
-  pendingRequest: boolean;
-  uri: string;
-  accounts: string[];
-  address: string;
-  result: any | null;
-  assets: IAssetData[];
-}
+// interface IAppState {
+//   connector: WalletConnect | null;
+//   fetching: boolean;
+//   connected: boolean;
+//   chainId: number;
+//   showModal: boolean;
+//   pendingRequest: boolean;
+//   uri: string;
+//   accounts: string[];
+//   address: string;
+//   result: any | null;
+//   assets: IAssetData[];
+// }
 
-const INITIAL_STATE: IAppState = {
-  connector: null,
-  fetching: false,
-  connected: false,
-  chainId: 1,
-  showModal: false,
-  pendingRequest: false,
-  uri: "",
-  accounts: [],
-  address: "",
-  result: null,
-  assets: [],
-};
+// const INITIAL_STATE: IAppState = {
+//   connector: null,
+//   fetching: false,
+//   connected: false,
+//   chainId: 1,
+//   showModal: false,
+//   pendingRequest: false,
+//   uri: "",
+//   accounts: [],
+//   address: "",
+//   result: null,
+//   assets: [],
+// };
 
 class App extends React.Component<any, any> {
-  public state: IAppState = {
-    ...INITIAL_STATE,
-  };
+  // public state: IAppState = {
+  //   ...INITIAL_STATE,
+  // };
 
   public connect = async () => {
-    // bridge url
-    const bridge = "https://bridge.walletconnect.org";
+    // // bridge url
+    // const bridge = "https://bridge.walletconnect.org";
 
-    // create new connector
-    const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal });
+    // // create new connector
+    // const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal });
 
-    await this.setState({ connector });
+    // await this.setState({ connector });
 
-    // check if already connected
-    if (!connector.connected) {
-      // create new session
-      await connector.createSession();
-    }
+    // // check if already connected
+    // if (!connector.connected) {
+    //   // create new session
+    //   await connector.createSession();
+    // }
 
-    // subscribe to events
-    await this.subscribeToEvents();
+    // // subscribe to events
+    // await this.subscribeToEvents();
+     //  Create WalletConnect Provider
+
+    const provider = new WalletConnectProvider({
+      rpc: {
+        101: "https://testnet.palette-rpc.com:22000",
+      },
+    });
+
+    // Subscribe to accounts change
+    provider.on("accountsChanged", (accounts: string[]) => {
+      console.log(accounts);
+    });
+
+    // Subscribe to chainId change
+    provider.on("chainChanged", (chainId: number) => {
+      console.log(chainId);
+    });
+
+    // Subscribe to session disconnection
+    provider.on("disconnect", (code: number, reason: string) => {
+      console.log(code, reason);
+    });
+
+    //  Enable session (triggers QR Code modal)
+    await provider.enable();
+
   };
-  public subscribeToEvents = () => {
-    const { connector } = this.state;
+  // public subscribeToEvents = () => {
+  //   const { connector } = this.state;
 
-    if (!connector) {
-      return;
-    }
+  //   if (!connector) {
+  //     return;
+  //   }
 
-    connector.on("session_update", async (error, payload) => {
-      console.log(`connector.on("session_update")`);
+  //   connector.on("session_update", async (error, payload) => {
+  //     console.log(`connector.on("session_update")`);
 
-      if (error) {
-        throw error;
-      }
+  //     if (error) {
+  //       throw error;
+  //     }
 
-      const { chainId, accounts } = payload.params[0];
-      this.onSessionUpdate(accounts, chainId);
-    });
+  //     const { chainId, accounts } = payload.params[0];
+  //     this.onSessionUpdate(accounts, chainId);
+  //   });
 
-    connector.on("connect", (error, payload) => {
-      console.log(`connector.on("connect")`);
+  //   connector.on("connect", (error, payload) => {
+  //     console.log(`connector.on("connect")`);
 
-      if (error) {
-        throw error;
-      }
+  //     if (error) {
+  //       throw error;
+  //     }
 
-      this.onConnect(payload);
-    });
+  //     this.onConnect(payload);
+  //   });
 
-    connector.on("disconnect", (error, payload) => {
-      console.log(`connector.on("disconnect")`);
+  //   connector.on("disconnect", (error, payload) => {
+  //     console.log(`connector.on("disconnect")`);
 
-      if (error) {
-        throw error;
-      }
+  //     if (error) {
+  //       throw error;
+  //     }
 
-      this.onDisconnect();
-    });
+  //     this.onDisconnect();
+  //   });
 
-    if (connector.connected) {
-      const { chainId, accounts } = connector;
-      const address = accounts[0];
-      this.setState({
-        connected: true,
-        chainId,
-        accounts,
-        address,
-      });
-      this.onSessionUpdate(accounts, chainId);
-    }
+  //   if (connector.connected) {
+  //     const { chainId, accounts } = connector;
+  //     const address = accounts[0];
+  //     this.setState({
+  //       connected: true,
+  //       chainId,
+  //       accounts,
+  //       address,
+  //     });
+  //     this.onSessionUpdate(accounts, chainId);
+  //   }
 
-    this.setState({ connector });
-  };
+  //   this.setState({ connector });
+  // };
 
   public killSession = async () => {
-    const { connector } = this.state;
-    if (connector) {
-      connector.killSession();
-    }
-    this.resetApp();
+    // const { connector } = this.state;
+    // if (connector) {
+    //   connector.killSession();
+    // }
+    // this.resetApp();
+    console.log('killSession');
   };
 
-  public resetApp = async () => {
-    await this.setState({ ...INITIAL_STATE });
-  };
+  // public resetApp = async () => {
+  //   await this.setState({ ...INITIAL_STATE });
+  // };
 
-  public onConnect = async (payload: IInternalEvent) => {
-    const { chainId, accounts } = payload.params[0];
-    const address = accounts[0];
-    await this.setState({
-      connected: true,
-      chainId,
-      accounts,
-      address,
-    });
-    this.getAccountAssets();
-  };
+  // public onConnect = async (payload: IInternalEvent) => {
+  //   const { chainId, accounts } = payload.params[0];
+  //   const address = accounts[0];
+  //   await this.setState({
+  //     connected: true,
+  //     chainId,
+  //     accounts,
+  //     address,
+  //   });
+  //   this.getAccountAssets();
+  // };
 
-  public onDisconnect = async () => {
-    this.resetApp();
-  };
+  // public onDisconnect = async () => {
+  //   this.resetApp();
+  // };
 
-  public onSessionUpdate = async (accounts: string[], chainId: number) => {
-    const address = accounts[0];
-    await this.setState({ chainId, accounts, address });
-    await this.getAccountAssets();
-  };
+  // public onSessionUpdate = async (accounts: string[], chainId: number) => {
+  //   const address = accounts[0];
+  //   await this.setState({ chainId, accounts, address });
+  //   await this.getAccountAssets();
+  // };
 
-  public getAccountAssets = async () => {
-    const { address, chainId } = this.state;
-    this.setState({ fetching: true });
-    try {
-      // get account balances
-      const assets = await apiGetAccountAssets(address, chainId);
+  // public getAccountAssets = async () => {
+  //   const { address, chainId } = this.state;
+  //   this.setState({ fetching: true });
+  //   try {
+  //     // get account balances
+  //     const assets = await apiGetAccountAssets(address, chainId);
 
-      await this.setState({ fetching: false, address, assets });
-    } catch (error) {
-      console.error(error);
-      await this.setState({ fetching: false });
-    }
-  };
+  //     await this.setState({ fetching: false, address, assets });
+  //   } catch (error) {
+  //     console.error(error);
+  //     await this.setState({ fetching: false });
+  //   }
+  // };
 
   public toggleModal = () => this.setState({ showModal: !this.state.showModal });
 
-  public testSendTransaction = async () => {
-    const { connector, address, chainId } = this.state;
+  // public testSendTransaction = async () => {
+  //   const { connector, address, chainId } = this.state;
 
-    if (!connector) {
-      return;
-    }
+  //   if (!connector) {
+  //     return;
+  //   }
 
-    // from
-    const from = address;
+  //   // from
+  //   const from = address;
 
-    // to
-    const to = address;
+  //   // to
+  //   const to = address;
 
-    // nonce
-    const _nonce = await apiGetAccountNonce(address, chainId);
-    const nonce = sanitizeHex(convertStringToHex(_nonce));
+  //   // nonce
+  //   const _nonce = await apiGetAccountNonce(address, chainId);
+  //   const nonce = sanitizeHex(convertStringToHex(_nonce));
 
-    // gasPrice
-    const gasPrices = await apiGetGasPrices();
-    let _gasPrice = gasPrices.slow.price;
-    _gasPrice = 0;
-    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+  //   // gasPrice
+  //   const gasPrices = await apiGetGasPrices();
+  //   let _gasPrice = gasPrices.slow.price;
+  //   _gasPrice = 0;
+  //   const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
-    // gasLimit
-    const _gasLimit = 0;
-    const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
+  //   // gasLimit
+  //   const _gasLimit = 0;
+  //   const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
 
-    // value
-    const _value = 0;
-    const value = sanitizeHex(convertStringToHex(_value));
+  //   // value
+  //   const _value = 0;
+  //   const value = sanitizeHex(convertStringToHex(_value));
 
-    // data
-    const data = "0x";
+  //   // data
+  //   const data = "0x";
 
-    // test transaction
-    const tx = {
-      from,
-      to,
-      nonce,
-      gasPrice,
-      gasLimit,
-      value,
-      data,
-    };
+  //   // test transaction
+  //   const tx = {
+  //     from,
+  //     to,
+  //     nonce,
+  //     gasPrice,
+  //     gasLimit,
+  //     value,
+  //     data,
+  //   };
 
-    try {
-      // open modal
-      this.toggleModal();
+  //   try {
+  //     // open modal
+  //     this.toggleModal();
 
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
+  //     // toggle pending request indicator
+  //     this.setState({ pendingRequest: true });
 
-      // send transaction
-      const result = await connector.sendTransaction(tx);
+  //     // send transaction
+  //     const result = await connector.sendTransaction(tx);
 
-      // format displayed result
-      const formattedResult = {
-        method: "eth_sendTransaction",
-        txHash: result,
-        from: address,
-        to: address,
-        value: "0 ETH",
-      };
+  //     // format displayed result
+  //     const formattedResult = {
+  //       method: "eth_sendTransaction",
+  //       txHash: result,
+  //       from: address,
+  //       to: address,
+  //       value: "0 ETH",
+  //     };
 
-      // display result
-      this.setState({
-        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({ connector, pendingRequest: false, result: null });
-    }
-  };
+  //     // display result
+  //     this.setState({
+  //       connector,
+  //       pendingRequest: false,
+  //       result: formattedResult || null,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     this.setState({ connector, pendingRequest: false, result: null });
+  //   }
+  // };
 
-  public testSignMessage = async () => {
-    const { connector, address, chainId } = this.state;
+  // public testSignMessage = async () => {
+  //   const { connector, address, chainId } = this.state;
 
-    if (!connector) {
-      return;
-    }
+  //   if (!connector) {
+  //     return;
+  //   }
 
-    // test message
-    const message = `My email is john@doe.com - ${new Date().toUTCString()}`;
+  //   // test message
+  //   const message = `My email is john@doe.com - ${new Date().toUTCString()}`;
 
-    // encode message (hex)
-    const hexMsg = convertUtf8ToHex(message);
+  //   // encode message (hex)
+  //   const hexMsg = convertUtf8ToHex(message);
 
-    // eth_sign params
-    const msgParams = [address, hexMsg];
+  //   // eth_sign params
+  //   const msgParams = [address, hexMsg];
 
-    try {
-      // open modal
-      this.toggleModal();
+  //   try {
+  //     // open modal
+  //     this.toggleModal();
 
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
+  //     // toggle pending request indicator
+  //     this.setState({ pendingRequest: true });
 
-      // send message
-      const result = await connector.signMessage(msgParams);
+  //     // send message
+  //     const result = await connector.signMessage(msgParams);
 
-      // verify signature
-      const hash = hashMessage(message);
-      const valid = await verifySignature(address, result, hash, chainId);
+  //     // verify signature
+  //     const hash = hashMessage(message);
+  //     const valid = await verifySignature(address, result, hash, chainId);
 
-      // format displayed result
-      const formattedResult = {
-        method: "eth_sign",
-        address,
-        valid,
-        result,
-      };
+  //     // format displayed result
+  //     const formattedResult = {
+  //       method: "eth_sign",
+  //       address,
+  //       valid,
+  //       result,
+  //     };
 
-      // display result
-      this.setState({
-        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({ connector, pendingRequest: false, result: null });
-    }
-  };
+  //     // display result
+  //     this.setState({
+  //       connector,
+  //       pendingRequest: false,
+  //       result: formattedResult || null,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     this.setState({ connector, pendingRequest: false, result: null });
+  //   }
+  // };
 
-  public testSignTypedData = async () => {
-    const { connector, address, chainId } = this.state;
+  // public testSignTypedData = async () => {
+  //   const { connector, address, chainId } = this.state;
 
-    if (!connector) {
-      return;
-    }
+  //   if (!connector) {
+  //     return;
+  //   }
 
-    const message = JSON.stringify(eip712.example);
+  //   const message = JSON.stringify(eip712.example);
 
-    // eth_signTypedData params
-    const msgParams = [address, message];
+  //   // eth_signTypedData params
+  //   const msgParams = [address, message];
 
-    try {
-      // open modal
-      this.toggleModal();
+  //   try {
+  //     // open modal
+  //     this.toggleModal();
 
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
+  //     // toggle pending request indicator
+  //     this.setState({ pendingRequest: true });
 
-      // sign typed data
-      const result = await connector.signTypedData(msgParams);
+  //     // sign typed data
+  //     const result = await connector.signTypedData(msgParams);
 
-      // verify signature
-      const hash = hashTypedDataMessage(message);
-      const valid = await verifySignature(address, result, hash, chainId);
+  //     // verify signature
+  //     const hash = hashTypedDataMessage(message);
+  //     const valid = await verifySignature(address, result, hash, chainId);
 
-      // format displayed result
-      const formattedResult = {
-        method: "eth_signTypedData",
-        address,
-        valid,
-        result,
-      };
+  //     // format displayed result
+  //     const formattedResult = {
+  //       method: "eth_signTypedData",
+  //       address,
+  //       valid,
+  //       result,
+  //     };
 
-      // display result
-      this.setState({
-        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({ connector, pendingRequest: false, result: null });
-    }
-  };
+  //     // display result
+  //     this.setState({
+  //       connector,
+  //       pendingRequest: false,
+  //       result: formattedResult || null,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     this.setState({ connector, pendingRequest: false, result: null });
+  //   }
+  // };
 
-  public testPltSendTransaction = async () => {
-    const { connector, address } = this.state;
+  // public testPltSendTransaction = async () => {
+  //   const { connector, address } = this.state;
 
-    if (!connector) {
-      return;
-    }
+  //   if (!connector) {
+  //     return;
+  //   }
 
-    const _value = 0;
-    const customRequest = {
-      id: 1337,
-      jsonrpc: "2.0",
-      method: "plt_sendTransaction",
-      params: [
-        {
-          from: address,
-          to: address,
-          value: sanitizeHex(convertStringToHex(_value)),
-        },
-      ],
-    };
+  //   const _value = 0;
+  //   const customRequest = {
+  //     id: 1337,
+  //     jsonrpc: "2.0",
+  //     method: "plt_sendTransaction",
+  //     params: [
+  //       {
+  //         from: address,
+  //         to: address,
+  //         value: sanitizeHex(convertStringToHex(_value)),
+  //       },
+  //     ],
+  //   };
     
 
-    try {
-      // open modal
-      this.toggleModal();
+  //   try {
+  //     // open modal
+  //     this.toggleModal();
 
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
+  //     // toggle pending request indicator
+  //     this.setState({ pendingRequest: true });
 
-      // send transaction
-      const result = await connector.sendCustomRequest(customRequest);
+  //     // send transaction
+  //     const result = await connector.sendCustomRequest(customRequest);
 
-      // format displayed result
-      const formattedResult = {
-        method: "plt_sendTransaction",
-        txHash: result,
-        from: address,
-        to: address,
-        value: "0 PLT",
-      };
+  //     // format displayed result
+  //     const formattedResult = {
+  //       method: "plt_sendTransaction",
+  //       txHash: result,
+  //       from: address,
+  //       to: address,
+  //       value: "0 PLT",
+  //     };
 
-      // display result
-      this.setState({
-        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({ connector, pendingRequest: false, result: null });
-    }
-  };
+  //     // display result
+  //     this.setState({
+  //       connector,
+  //       pendingRequest: false,
+  //       result: formattedResult || null,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     this.setState({ connector, pendingRequest: false, result: null });
+  //   }
+  // };
 
   public render = () => {
     const {
@@ -549,19 +576,19 @@ class App extends React.Component<any, any> {
                 <h3>Actions</h3>
                 <Column center>
                   <STestButtonContainer>
-                    <STestButton left onClick={this.testSendTransaction}>
+                    <STestButton left /*onClick={this.testSendTransaction}*/>
                       {"eth_sendTransaction"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testSignMessage}>
+                    <STestButton left /*onClick={this.testSignMessage}*/>
                       {"eth_sign"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testSignTypedData}>
+                    <STestButton left /*onClick={this.testSignTypedData}*/>
                       {"eth_signTypedData"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testPltSendTransaction}>
+                    <STestButton left /*onClick={this.testPltSendTransaction}*/>
                       {"plt_sendTransaction"}
                     </STestButton>
                   </STestButtonContainer>
