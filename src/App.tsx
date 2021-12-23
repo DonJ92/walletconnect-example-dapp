@@ -536,6 +536,17 @@ class App extends React.Component<any, any> {
   //   }
   // };
 
+  public state = {
+    assets: [],
+    address: '',
+    connected: false,
+    chainId: 0,
+    fetching: false,
+    showModal: false,
+    pendingRequest: false,
+    result: null
+  }
+
   public render = () => {
     const {
       assets,
@@ -623,7 +634,7 @@ class App extends React.Component<any, any> {
                 {Object.keys(result).map(key => (
                   <SRow key={key}>
                     <SKey>{key}</SKey>
-                    <SValue>{result[key].toString()}</SValue>
+                    <SValue>{/*result[key].toString()*/}</SValue>
                   </SRow>
                 ))}
               </STable>
