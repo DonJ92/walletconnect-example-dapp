@@ -318,7 +318,7 @@ class App extends React.Component<any, any> {
 
     const address = accounts[0];
 
-    this.setState({
+    await this.setState({
       connected: true,
       chainId,
       accounts,
