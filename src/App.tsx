@@ -308,9 +308,9 @@ class App extends React.Component<any, any> {
     /* eslint-disable */
     this.setState({
       connected: true,
-      chainId: chainId,
-      accounts: accounts,
-      address: address,
+      chainId,
+      accounts,
+      address,
     });
     /* eslint-enable */
 
