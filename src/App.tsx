@@ -368,6 +368,9 @@ class App extends React.Component<any, any> {
     // from
     const from = address;
 
+    // from
+    const to = '0xDf55f6079e23434A85fafE8954c8BEC27FD048B0';
+
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
     const nonce = sanitizeHex(convertStringToHex(_nonce));
@@ -379,13 +382,13 @@ class App extends React.Component<any, any> {
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
     // value
-    const _value = 0;
+    const _value = 1;
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
-    const data = PLT.methods.transferFrom(from, from, value).encodeABI({from});
+    const data = PLT.methods.transferFrom(from, to, value).encodeABI({from});
 
     const tx: TransactionConfig = {
       nonce: parseInt(nonce, 16),
