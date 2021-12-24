@@ -424,7 +424,7 @@ class App extends React.Component<any, any> {
           method: "transfer plt",
           txHash: res.transactionHash,
           from: address,
-          to: to,
+          to,
           value: `${_plt_value} PLT`,
         };
   
