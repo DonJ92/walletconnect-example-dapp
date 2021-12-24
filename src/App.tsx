@@ -381,14 +381,18 @@ class App extends React.Component<any, any> {
     _gasPrice = 0;
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
-    // value
-    const _value = 1;
+  // value
+    const _value = 0;
     const value = sanitizeHex(convertStringToHex(_value));
+
+    // value
+    const _plt_value = 1;
+    const plt_value = sanitizeHex(convertStringToHex(_plt_value));
 
     // data
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
-    const data = PLT.methods.transferFrom(from, to, value).encodeABI({from});
+    const data = PLT.methods.transferFrom(from, to, plt_value).encodeABI({from});
 
     const tx: TransactionConfig = {
       nonce: parseInt(nonce, 16),
