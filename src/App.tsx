@@ -387,7 +387,7 @@ class App extends React.Component<any, any> {
 
     // value
     const _plt_value = 1;
-    const plt_value = sanitizeHex(convertStringToHex(_plt_value));
+    const plt_value = sanitizeHex(convertStringToHex(_plt_value * Math.pow(10,18)));
 
     // data
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
@@ -424,8 +424,8 @@ class App extends React.Component<any, any> {
           method: "transfer plt",
           txHash: res.transactionHash,
           from: address,
-          to: address,
-          value: `${_value} PLT`,
+          to: to,
+          value: `${_plt_value} PLT`,
         };
   
         // display result
