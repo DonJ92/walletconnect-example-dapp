@@ -392,7 +392,14 @@ class App extends React.Component<any, any> {
     // data
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
-    const data = PLT.methods.transferFrom(from, to, plt_value).encodeABI({from});
+    const data = PLT.methods.transferFrom(from, to, plt_value).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to: contract,
+      value,
+      gasPrice,
+      gas: 0
+    });
 
     const tx: TransactionConfig = {
       nonce: parseInt(nonce, 16),
