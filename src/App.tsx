@@ -213,7 +213,7 @@ class App extends React.Component<any, any> {
   };
 
   public metamaskConnect = async () => {
-    window.ethereum.request({ method: 'eth_requestAccounts' })
+    window.ethereum?.request({ method: 'eth_requestAccounts' })
     .then((res: string[]) => {
       this.onConnect(res, 101);
     })
