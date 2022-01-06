@@ -160,6 +160,8 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
+declare var window: any
+
 class App extends React.Component<any, any> {
   // public state: IAppState = {
   //   ...INITIAL_STATE,
