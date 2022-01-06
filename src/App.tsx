@@ -212,6 +212,16 @@ class App extends React.Component<any, any> {
 
   };
 
+  public metamaskConnect = async () => {
+    window.ethereum.request({ method: 'eth_requestAccounts' })
+    .then((res: string[]) => {
+      this.onConnect(res, 101);
+    })
+    .catch((err: any) => {
+      console.log(err);
+    })
+  };
+
   public killSession = async () => {
     // const { connector } = this.state;
     // if (connector) {
@@ -390,7 +400,8 @@ class App extends React.Component<any, any> {
     const plt_value = sanitizeHex(convertStringToHex(_plt_value * Math.pow(10,18)));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.transferFrom(from, to, plt_value).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -581,7 +592,7 @@ class App extends React.Component<any, any> {
                   <span>{`v${process.env.REACT_APP_VERSION}`}</span>
                 </h3>
                 <SButtonContainer>
-                  <SConnectButton left onClick={this.connect} fetching={fetching}>
+                  <SConnectButton left onClick={this.metamaskConnect} fetching={fetching}>
                     {"Connect to WalletConnect"}
                   </SConnectButton>
                 </SButtonContainer>
