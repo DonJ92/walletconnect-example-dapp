@@ -583,9 +583,6 @@ class App extends React.Component<any, any> {
     // from
     const from = address;
 
-    // from
-    const to = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
-
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
     const nonce = sanitizeHex(convertStringToHex(_nonce));
@@ -650,7 +647,7 @@ class App extends React.Component<any, any> {
           method: "approve nft",
           txHash: res.transactionHash,
           from: address,
-          to,
+          to: contract,
           token: `${nft_value_id}`,
         };
   
