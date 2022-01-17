@@ -570,6 +570,108 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testNFTApproveTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // contract address
+    const contract = '0x0000000000000000000000000000000000001014';
+
+    // from
+    const from = address;
+
+    // from
+    const to = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // token id
+    const _nft_token_id = 2;
+    const nft_value_id = _nft_token_id;
+
+    // exchange contract address
+    const exchange_address = '0xDbF58aD64a728B42AEB9252E6dE5d48a1C478968';
+
+    // data
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
+    const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
+    const data = NFT.methods.approve(exchange_address, _nft_token_id).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to: contract,
+      value,
+      gasPrice,
+      gas: 0
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to: contract,
+      value,
+      data,
+      gasPrice,
+      gas: 0
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "approve nft",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+          token: `${nft_value_id}`,
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
+
   public testSellRequestTransaction = async () => {
     const { address/*, chainId*/ } = this.state;
 
@@ -834,6 +936,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testNFTSendTransaction}>
                       {"nft_sendTransaction"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testNFTApproveTransaction}>
+                      {"nft_approveTransaction"}
                     </STestButton>
 
                     <STestButton left onClick={this.testSellRequestTransaction}>
