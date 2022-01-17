@@ -169,7 +169,8 @@ class App extends React.Component<any, any> {
 
   public provider: WalletConnectProvider = new WalletConnectProvider({
     rpc: {
-      101: "https://testnet.palette-rpc.com:22000",
+//      101: "https://testnet.palette-rpc.com:22000",
+      103: "http://3.112.217.80:22000",
     },
   });
 
@@ -193,7 +194,7 @@ class App extends React.Component<any, any> {
 
     // Subscribe to accounts change
     this.provider.on("accountsChanged", (accounts: string[]) => {
-      this.onConnect(accounts, 101);
+      this.onConnect(accounts, 103);
     });
 
     // Subscribe to chainId change
@@ -219,7 +220,7 @@ class App extends React.Component<any, any> {
   public metamaskConnect = async () => {
     window.ethereum?.request({ method: 'eth_requestAccounts' })
     .then((res: string[]) => {
-      this.onConnect(res, 101);
+      this.onConnect(res, 103);
     })
     .catch((err: any) => {
       console.log(err);
