@@ -849,7 +849,7 @@ class App extends React.Component<any, any> {
         console.log(res);
 
         const formattedResult = {
-          method: "sell request",
+          method: "sell cancel",
           txHash: res.transactionHash,
           from: address,
           to,
