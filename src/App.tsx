@@ -992,7 +992,7 @@ class App extends React.Component<any, any> {
     const to = '0xDbF58aD64a728B42AEB9252E6dE5d48a1C478968';
 
     // sell token owner address
-    const owner = from;
+    const owner = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
 
     // buy erc20 token contract address
     const buyToken = '0x0000000000000000000000000000000000000103';
