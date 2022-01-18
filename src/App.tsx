@@ -598,7 +598,7 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // token id
-    const _nft_token_id = 2;
+    const _nft_token_id = 1;
     const nft_value_id = _nft_token_id;
 
     // exchange contract address
@@ -680,7 +680,7 @@ class App extends React.Component<any, any> {
     const sellToken = '0x0000000000000000000000000000000000001014';
 
     // sell NFT token id
-    const sellTokenId = 2;
+    const sellTokenId = 1;
 
     // buy erc20 token contract address
     const buyToken = '0x0000000000000000000000000000000000000103';
@@ -1025,23 +1025,23 @@ class App extends React.Component<any, any> {
                     </STestButton>
 
                     <STestButton left onClick={this.testPltSendTransaction}>
-                      {"plt_sendTransaction"}
+                      {"plt_transfer"}
                     </STestButton>
 
                     <STestButton left onClick={this.testNFTSendTransaction}>
-                      {"nft_sendTransaction"}
+                      {"nft_transfer"}
                     </STestButton>
 
                     <STestButton left onClick={this.testNFTApproveTransaction}>
-                      {"nft_approveTransaction"}
+                      {"nft_approve"}
                     </STestButton>
 
                     <STestButton left onClick={this.testSellRequestTransaction}>
-                      {"sellRequest_Transaction"}
+                      {"sell_request"}
                     </STestButton>
 
                     <STestButton left onClick={this.testSellCancelTransaction}>
-                      {"sellCancel_Transaction"}
+                      {"sell_cancel"}
                     </STestButton>
                   </STestButtonContainer>
                 </Column>
