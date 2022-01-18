@@ -1250,6 +1250,10 @@ class App extends React.Component<any, any> {
                       {"sell_cancel"}
                     </STestButton>
 
+                    <STestButton left onClick={this.testPLTApproveTransaction}>
+                      {"plt_approve"}
+                    </STestButton>
+
                     <STestButton left onClick={this.testBuyTransaction}>
                       {"buy"}
                     </STestButton>
