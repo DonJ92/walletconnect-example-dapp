@@ -28,7 +28,7 @@ import {AbiItem} from 'web3-utils';
 import PLTABI from './contracts/PLT.json';
 import NFTABI from './contracts/NFT.json';
 import ExchangeABI from './contracts/Exchange.json';
-import { AbstractProvider, TransactionConfig } from 'web3-core/types'
+import { /*AbstractProvider,*/ TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
 const SLayout = styled.div`
