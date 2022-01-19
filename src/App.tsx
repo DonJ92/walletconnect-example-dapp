@@ -1130,6 +1130,57 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testPersonalSignMessage = async () => {
+    const { address, chainId } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // test message
+    const message = `ログイン`;
+
+    // encode message (hex)
+    const hexMsg = convertUtf8ToHex(message);
+
+    // eth_sign params
+//    const msgParams = [address, hexMsg];
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+
+      const result = await web3.eth.personal.sign(hexMsg, address, '')
+
+      // verify signature
+      const hash = hashMessage(hexMsg);
+      const valid = await verifySignature(address, result, hash, chainId);
+
+      // format displayed result
+      const formattedResult = {
+        method: "eth_personal_sign",
+        address,
+        valid,
+        result,
+      };
+
+      // display result
+      this.setState({
+//          connector,
+        pendingRequest: false,
+        result: formattedResult || null,
+      });
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
+
 //   public testSignTypedData = async () => {
 //     const { address, chainId } = this.state;
 
@@ -1224,6 +1275,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testSignMessage}>
                       {"eth_sign"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testPersonalSignMessage}>
+                      {"eth_personal_sign"}
                     </STestButton>
 
                     <STestButton left /*onClick={this.testSignTypedData}*/>
