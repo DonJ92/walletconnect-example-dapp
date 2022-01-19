@@ -337,7 +337,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -1102,7 +1103,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.sign(hexMsg, address)
 
@@ -1153,7 +1155,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.personal.sign(hexMsg, address, '')
 
