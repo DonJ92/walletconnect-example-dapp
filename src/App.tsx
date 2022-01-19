@@ -1160,6 +1160,8 @@ class App extends React.Component<any, any> {
 
       const result = await web3.eth.personal.sign(hexMsg, address, '')
 
+      console.log(result);
+
       // verify signature
       const hash = hashMessage(hexMsg);
       const valid = await verifySignature(address, result, hash, chainId);
