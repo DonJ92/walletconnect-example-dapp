@@ -788,7 +788,7 @@ class App extends React.Component<any, any> {
     const sellToken = '0x0000000000000000000000000000000000001014';
 
     // sell NFT token id
-    const sellTokenId = 2;
+    const sellTokenId = 1;
 
     // from
     const from = address;
@@ -902,7 +902,7 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // price
-    const _plt_price = 1;
+    const _plt_price = 2;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // exchange contract address
@@ -972,6 +972,105 @@ class App extends React.Component<any, any> {
       this.setState({ /*connector, */pendingRequest: false, result: null });
     }
   };
+
+  public testSetFeeTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // service address
+    const serviceAddress = '0xD74c89D3A9B34Bb892348601c56146cd683C2313';
+
+    // service fee percent
+    const servicePercent = 50;
+
+    // from
+    const from = address;
+
+    // exchange contract address
+    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
+    const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
+    const data = exchange.methods.setFeeInfo(serviceAddress, servicePercent).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      gasPrice,
+      gas: 0
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      data,
+      gasPrice,
+      gas: 0
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "setFeeInfo",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+          serviceAddress,
+          servicePercent,
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  }
 
   public testBuyTransaction = async () => {
     const { address/*, chainId*/ } = this.state;
@@ -1312,6 +1411,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testPLTApproveTransaction}>
                       {"plt_approve"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testSetFeeTransaction}>
+                      {"setFeeInfo"}
                     </STestButton>
 
                     <STestButton left onClick={this.testBuyTransaction}>
