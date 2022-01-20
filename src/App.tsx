@@ -603,7 +603,7 @@ class App extends React.Component<any, any> {
     const nft_value_id = _nft_token_id;
 
     // exchange contract address
-    const exchange_address = '0xDbF58aD64a728B42AEB9252E6dE5d48a1C478968';
+    const exchange_address = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
 
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
@@ -697,7 +697,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0xDbF58aD64a728B42AEB9252E6dE5d48a1C478968';
+    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -794,7 +794,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0xDbF58aD64a728B42AEB9252E6dE5d48a1C478968';
+    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -906,7 +906,7 @@ class App extends React.Component<any, any> {
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // exchange contract address
-    const exchange_address = '0xDbF58aD64a728B42AEB9252E6dE5d48a1C478968';
+    const exchange_address = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
 
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
@@ -990,7 +990,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0xDbF58aD64a728B42AEB9252E6dE5d48a1C478968';
+    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
 
     // sell token owner address
     const owner = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
