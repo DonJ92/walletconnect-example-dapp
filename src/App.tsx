@@ -952,7 +952,7 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to: contract,
-          token: `${_plt_price}`,
+          plt_price: `${_plt_price}`,
         };
   
         // display result
@@ -1098,7 +1098,7 @@ class App extends React.Component<any, any> {
     const buyToken = '0x0000000000000000000000000000000000000103';
 
     // price
-    const _plt_price = 1;
+    const _plt_price = 2;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
