@@ -381,13 +381,13 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = process.env.PLT_CONTRACT_ADDRESS;
+    const contract = '0x0000000000000000000000000000000000000103';
 
     // from
     const from = address;
 
     // from
-    const to = process.env.PLT_OWNER;
+    const to = '0xDf55f6079e23434A85fafE8954c8BEC27FD048B0';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -480,13 +480,13 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = process.env.NFT_CONTRACT_ADDRESS;
+    const contract = '0x0000000000000000000000000000000000001014';
 
     // from
     const from = address;
 
     // from
-    const to = process.env.NFT_OWNER;
+    const to = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -579,7 +579,7 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = process.env.NFT_CONTRACT_ADDRESS;
+    const contract = '0x0000000000000000000000000000000000001014';
 
     // from
     const from = address;
@@ -603,7 +603,7 @@ class App extends React.Component<any, any> {
     const nft_value_id = _nft_token_id;
 
     // exchange contract address
-    const exchange_address = process.env.EXCHANGE_CONTRACT_ADDRESS;
+    const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
@@ -678,13 +678,13 @@ class App extends React.Component<any, any> {
     }
 
     // sell NFT token contract address
-    const sellToken = process.env.NFT_CONTRACT_ADDRESS;
+    const sellToken = '0x0000000000000000000000000000000000001014';
 
     // sell NFT token id
     const sellTokenId = 1;
 
     // buy erc20 token contract address
-    const buyToken = process.env.PLT_CONTRACT_ADDRESS;
+    const buyToken = '0x0000000000000000000000000000000000000103';
 
     // price
     const _plt_price = 1;
@@ -697,7 +697,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = process.env.EXCHANGE_CONTRACT_ADDRESS;
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -785,7 +785,7 @@ class App extends React.Component<any, any> {
     }
 
     // sell NFT token contract address
-    const sellToken = process.env.NFT_CONTRACT_ADDRESS;
+    const sellToken = '0x0000000000000000000000000000000000001014';
 
     // sell NFT token id
     const sellTokenId = 1;
@@ -794,7 +794,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = process.env.EXCHANGE_CONTRACT_ADDRESS;
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -882,7 +882,7 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = process.env.PLT_CONTRACT_ADDRESS;
+    const contract = '0x0000000000000000000000000000000000000103';
 
     // from
     const from = address;
@@ -906,7 +906,7 @@ class App extends React.Component<any, any> {
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // exchange contract address
-    const exchange_address = process.env.EXCHANGE_CONTRACT_ADDRESS;
+    const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
@@ -981,7 +981,7 @@ class App extends React.Component<any, any> {
     }
 
     // service address
-    const serviceAddress = process.env.SERVICE_ADDRESS;
+    const serviceAddress = '0xD74c89D3A9B34Bb892348601c56146cd683C2313';
 
     // service fee percent
     const servicePercent = 10;
@@ -993,7 +993,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = process.env.EXCHANGE_CONTRACT_ADDRESS;
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -1084,7 +1084,7 @@ class App extends React.Component<any, any> {
     }
 
     // sell NFT token contract address
-    const sellToken = process.env.NFT_CONTRACT_ADDRESS;
+    const sellToken = '0x0000000000000000000000000000000000001014';
 
     // sell NFT token id
     const sellTokenId = 1;
@@ -1093,13 +1093,13 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = process.env.EXCHANGE_CONTRACT_ADDRESS;
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // sell token owner address
-    const owner = process.env.NFT_OWNER;
+    const owner = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
 
     // buy erc20 token contract address
-    const buyToken = process.env.PLT_CONTRACT_ADDRESS;
+    const buyToken = '0x0000000000000000000000000000000000000103';
 
     // price
     const _plt_price = 1;
@@ -1120,7 +1120,7 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // affiliate address
-    const affiliateAddress = process.env.AFFILIATE_ADDRESS;
+    const affiliateAddress = '0x48b7278d8FA4e4008bccC6dc6aAaf4777648e29B';
 
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
