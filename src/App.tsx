@@ -603,7 +603,7 @@ class App extends React.Component<any, any> {
     const nft_value_id = _nft_token_id;
 
     // exchange contract address
-    const exchange_address = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
+    const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
@@ -697,7 +697,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -794,7 +794,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -902,11 +902,11 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // price
-    const _plt_price = 2;
+    const _plt_price = 1;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // exchange contract address
-    const exchange_address = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
+    const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
@@ -984,13 +984,16 @@ class App extends React.Component<any, any> {
     const serviceAddress = '0xD74c89D3A9B34Bb892348601c56146cd683C2313';
 
     // service fee percent
-    const servicePercent = 50;
+    const servicePercent = 10;
+
+    // affiliate fee percent
+    const affiliatePercent = 10;
 
     // from
     const from = address;
 
     // exchange contract address
-    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -1010,7 +1013,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.setFeeInfo(serviceAddress, servicePercent).encodeABI({
+    const data = exchange.methods.setFeeInfo(serviceAddress, servicePercent, affiliatePercent).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -1052,6 +1055,7 @@ class App extends React.Component<any, any> {
           to,
           serviceAddress,
           servicePercent,
+          affiliatePercent
         };
   
         // display result
@@ -1089,7 +1093,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0x8d8932cC5e0d3641c3a47AB61A970cdCab7d489A';
+    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // sell token owner address
     const owner = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
@@ -1098,7 +1102,7 @@ class App extends React.Component<any, any> {
     const buyToken = '0x0000000000000000000000000000000000000103';
 
     // price
-    const _plt_price = 2;
+    const _plt_price = 1;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
@@ -1115,11 +1119,14 @@ class App extends React.Component<any, any> {
     const _value = 0;
     const value = sanitizeHex(convertStringToHex(_value));
 
+    // affiliate address
+    const affiliateAddress = '0x48b7278d8FA4e4008bccC6dc6aAaf4777648e29B';
+
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.buy(sellToken, sellTokenId, owner, buyToken, price).encodeABI({
+    const data = exchange.methods.buy(sellToken, sellTokenId, owner, buyToken, price, affiliateAddress).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
