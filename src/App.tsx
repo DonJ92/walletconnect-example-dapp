@@ -28,7 +28,7 @@ import {AbiItem} from 'web3-utils';
 import PLTABI from './contracts/PLT.json';
 import NFTABI from './contracts/NFT.json';
 import ExchangeABI from './contracts/Exchange.json';
-import { /*AbstractProvider,*/ TransactionConfig } from 'web3-core/types'
+import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
 const SLayout = styled.div`
@@ -337,8 +337,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      const web3 = new Web3(Web3.givenProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      // const web3 = new Web3(Web3.givenProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -408,8 +408,8 @@ class App extends React.Component<any, any> {
     const plt_value = sanitizeHex(convertStringToHex(_plt_value * Math.pow(10,18)));
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.transferFrom(from, to, plt_value).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -437,7 +437,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -507,8 +507,8 @@ class App extends React.Component<any, any> {
     const nft_value_id = _nft_token_id;
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
     const data = NFT.methods.transferFrom(from, to, nft_value_id).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -536,7 +536,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -606,8 +606,8 @@ class App extends React.Component<any, any> {
     const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
     const data = NFT.methods.approve(exchange_address, _nft_token_id).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -635,7 +635,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -714,8 +714,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.sellRequest(sellToken, sellTokenId, buyToken, price, order_type).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -743,7 +743,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -811,8 +811,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.cancelSell(sellToken, sellTokenId).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -840,7 +840,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -909,8 +909,8 @@ class App extends React.Component<any, any> {
     const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.approve(exchange_address, price).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -938,7 +938,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -1010,8 +1010,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.setFeeInfo(serviceAddress, servicePercent, affiliatePercent).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -1039,7 +1039,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -1123,8 +1123,8 @@ class App extends React.Component<any, any> {
     const affiliateAddress = '0x48b7278d8FA4e4008bccC6dc6aAaf4777648e29B';
 
     // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.buy(sellToken, sellTokenId, owner, buyToken, price, affiliateAddress).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -1152,7 +1152,7 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -1209,8 +1209,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      const web3 = new Web3(Web3.givenProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      // const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.sign(hexMsg, address)
 
@@ -1261,8 +1261,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      const web3 = new Web3(Web3.givenProvider);
+      const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      // const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.personal.sign(hexMsg, address, '')
 
@@ -1369,7 +1369,7 @@ class App extends React.Component<any, any> {
                   <span>{`v${process.env.REACT_APP_VERSION}`}</span>
                 </h3>
                 <SButtonContainer>
-                  <SConnectButton left onClick={this.metamaskConnect} fetching={fetching}>
+                  <SConnectButton left onClick={this.connect} fetching={fetching}>
                     {"Connect to WalletConnect"}
                   </SConnectButton>
                 </SButtonContainer>
