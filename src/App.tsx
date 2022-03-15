@@ -401,7 +401,7 @@ class App extends React.Component<any, any> {
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
   // value
-    const _value = 0;
+    const _value = 1;
     const value = sanitizeHex(convertStringToHex(_value));
 
     // value
