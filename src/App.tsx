@@ -405,7 +405,7 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value * Math.pow(10,18)));
 
     // value
-    const _plt_value = 1;
+    const _plt_value = 50;
     const plt_value = sanitizeHex(convertStringToHex(_plt_value * Math.pow(10,18)));
 
     // data
