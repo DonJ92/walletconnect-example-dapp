@@ -402,7 +402,7 @@ class App extends React.Component<any, any> {
 
   // value
     const _value = 1;
-    const value = sanitizeHex(convertStringToHex(_value));
+    const value = sanitizeHex(convertStringToHex(_value * Math.pow(10,18)));
 
     // value
     const _plt_value = 1;
