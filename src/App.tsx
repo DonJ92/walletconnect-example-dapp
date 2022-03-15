@@ -172,7 +172,8 @@ class App extends React.Component<any, any> {
   public provider: WalletConnectProvider = new WalletConnectProvider({
     rpc: {
 //      101: "https://testnet.palette-rpc.com:22000",
-      103: "http://3.112.217.80:22000",
+      101: "https://tempnet-1.palette-rpc.com:22000",
+//      103: "http://3.112.217.80:22000",
     },
   });
 
