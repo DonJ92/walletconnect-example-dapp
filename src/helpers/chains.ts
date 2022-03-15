@@ -242,6 +242,22 @@ export const SUPPORTED_CHAINS: IChainData[] = [
     },
   },
   {
+    name: "PLT Temp Network1",
+    short_name: "PLT",
+    chain: "PLT",
+    network: "tmpnet",
+    chain_id: 102,
+    network_id: 102,
+    rpc_url: "https://tempnet-1.palette-rpc.com:22000",
+    native_currency: {
+      symbol: "PLT",
+      name: "PLT",
+      decimals: "0",
+      contractAddress: "0x0000000000000000000000000000000000000103",
+      balance: "",
+    },
+  },
+  {
     name: "PLT Temp Network2",
     short_name: "PLT",
     chain: "PLT",
