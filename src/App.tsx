@@ -162,6 +162,19 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
+const NFT_contract = '0x0000000000000000000000000000000000001014';
+const PLT_contract = '0x0000000000000000000000000000000000000103';
+const MP_contract = '0x0000000000000000000000000000000000001014';
+const NFT_owner_address = "";
+const TO_address_for_PLT = '0xDf55f6079e23434A85fafE8954c8BEC27FD048B0';
+const PLT_transfer_amount = 50;
+const TO_address_for_NFT = '0xDf55f6079e23434A85fafE8954c8BEC27FD048B0';
+const NFT_token_id_for_transfer = 1;
+const NFT_token_id_for_approve = 1;
+const NFT_token_id_for_sell = 1;
+const NFT_token_id_for_sell_cancel = 1;
+const PLT_price_for_NFT = 10;
+const PLT_price_for_approve = 10;
 declare var window: any
 
 class App extends React.Component<any, any> {
@@ -338,8 +351,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      // const web3 = new Web3(Web3.givenProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
       web3.eth.sendTransaction(tx)
       .once('sending', (payload: any) => { console.log('sending') })
       .once('sent', (payload: any) => { console.log('sent') })
@@ -382,13 +395,13 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = '0x0000000000000000000000000000000000000103';
+    const contract = PLT_contract;
 
     // from
     const from = address;
 
-    // from
-    const to = '0xDf55f6079e23434A85fafE8954c8BEC27FD048B0';
+    // to
+    const to = TO_address_for_PLT;
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -400,17 +413,17 @@ class App extends React.Component<any, any> {
     _gasPrice = 0;
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
-  // value
-    const _value = 50;
+    // value
+    const _value = PLT_transfer_amount;
     const value = sanitizeHex(convertStringToHex(_value * Math.pow(10,18)));
 
     // value
-    const _plt_value = 50;
+    const _plt_value = PLT_transfer_amount;
     const plt_value = sanitizeHex(convertStringToHex(_plt_value * Math.pow(10,18)));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.transferFrom(from, to, plt_value).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -481,13 +494,13 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = '0x0000000000000000000000000000000000001014';
+    const contract = NFT_contract;
 
     // from
     const from = address;
 
-    // from
-    const to = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
+    // to
+    const to = TO_address_for_NFT;
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -504,12 +517,12 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // token id
-    const _nft_token_id = 1;
+    const _nft_token_id = NFT_token_id_for_transfer;
     const nft_value_id = _nft_token_id;
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
     const data = NFT.methods.transferFrom(from, to, nft_value_id).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -580,7 +593,7 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = '0x0000000000000000000000000000000000001014';
+    const contract = NFT_contract;
 
     // from
     const from = address;
@@ -600,15 +613,15 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // token id
-    const _nft_token_id = 1;
+    const _nft_token_id = NFT_token_id_for_approve;
     const nft_value_id = _nft_token_id;
 
     // exchange contract address
-    const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
+    const exchange_address = MP_contract;
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
     const data = NFT.methods.approve(exchange_address, _nft_token_id).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -679,16 +692,16 @@ class App extends React.Component<any, any> {
     }
 
     // sell NFT token contract address
-    const sellToken = '0x0000000000000000000000000000000000001014';
+    const sellToken = NFT_contract;
 
     // sell NFT token id
-    const sellTokenId = 1;
+    const sellTokenId = NFT_token_id_for_sell;
 
     // buy erc20 token contract address
-    const buyToken = '0x0000000000000000000000000000000000000103';
+    const buyToken = PLT_contract;
 
     // price
-    const _plt_price = 1;
+    const _plt_price = PLT_price_for_NFT;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // order type
@@ -698,7 +711,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
+    const to = MP_contract;
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -715,8 +728,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.sellRequest(sellToken, sellTokenId, buyToken, price, order_type).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -786,16 +799,16 @@ class App extends React.Component<any, any> {
     }
 
     // sell NFT token contract address
-    const sellToken = '0x0000000000000000000000000000000000001014';
+    const sellToken = NFT_contract;
 
     // sell NFT token id
-    const sellTokenId = 1;
+    const sellTokenId = NFT_token_id_for_sell_cancel;
 
     // from
     const from = address;
 
     // exchange contract address
-    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
+    const to = MP_contract;
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -812,8 +825,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.cancelSell(sellToken, sellTokenId).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -883,7 +896,7 @@ class App extends React.Component<any, any> {
     }
 
     // contract address
-    const contract = '0x0000000000000000000000000000000000000103';
+    const contract = PLT_contract;
 
     // from
     const from = address;
@@ -903,15 +916,15 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // price
-    const _plt_price = 1;
+    const _plt_price = PLT_price_for_approve;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // exchange contract address
-    const exchange_address = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
+    const exchange_address = MP_contract;
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.approve(exchange_address, price).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -994,7 +1007,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // exchange contract address
-    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
+    const to = MP_contract;
 
     // nonce
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
@@ -1011,8 +1024,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.setFeeInfo(serviceAddress, servicePercent, affiliatePercent).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -1085,25 +1098,25 @@ class App extends React.Component<any, any> {
     }
 
     // sell NFT token contract address
-    const sellToken = '0x0000000000000000000000000000000000001014';
+    const sellToken = NFT_contract;
 
     // sell NFT token id
-    const sellTokenId = 1;
+    const sellTokenId = NFT_token_id_for_sell;
 
     // from
     const from = address;
 
     // exchange contract address
-    const to = '0x7B2A4f76063B80e4E185ae7a190EAf5d3f7eF813';
+    const to = MP_contract;
 
     // sell token owner address
-    const owner = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
+    const owner = NFT_owner_address;
 
     // buy erc20 token contract address
-    const buyToken = '0x0000000000000000000000000000000000000103';
+    const buyToken = PLT_contract;
 
     // price
-    const _plt_price = 1;
+    const _plt_price = PLT_price_for_NFT;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
@@ -1124,8 +1137,8 @@ class App extends React.Component<any, any> {
     const affiliateAddress = '0x48b7278d8FA4e4008bccC6dc6aAaf4777648e29B';
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.buy(sellToken, sellTokenId, owner, buyToken, price, affiliateAddress).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -1210,8 +1223,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      // const web3 = new Web3(Web3.givenProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.sign(hexMsg, address)
 
@@ -1262,8 +1275,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      // const web3 = new Web3(Web3.givenProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.personal.sign(hexMsg, address, '')
 
