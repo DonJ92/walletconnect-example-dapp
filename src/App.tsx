@@ -714,8 +714,9 @@ class App extends React.Component<any, any> {
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
     const nonce = sanitizeHex(convertStringToHex(_nonce));
 
-    const startAt = new Date();
-    const finishAt = new Date();
+    const currentDate = new Date();
+    const startAt = currentDate.getTime();
+    const finishAt = currentDate.getTime();
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
