@@ -162,18 +162,18 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
-const NFT_contract = '0x0000000000000000000000000000000000001014';
+const NFT_contract = '0x0000000000000000000000000000000000001113';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
-const MP_contract = '0x0000000000000000000000000000000000001014';
-const NFT_owner_address = "";
-const TO_address_for_PLT = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
+const MP_contract = '0x887e3e23389F8EE4232F688A8B499bA37EC404Bf';
+const NFT_owner_address = "0xDf55f6079e23434A85fafE8954c8BEC27FD048B0";
+const TO_address_for_PLT = '0x983ab5ff5ff2cd4d0b7b5f67113bb8e41af1e663';
 const PLT_transfer_amount = 10000;
 const TO_address_for_NFT = '0xDf55f6079e23434A85fafE8954c8BEC27FD048B0';
 const NFT_token_id_for_transfer = 1;
 const NFT_token_id_for_approve = 1;
 const NFT_token_id_for_sell = 1;
 const NFT_token_id_for_sell_cancel = 1;
-const PLT_price_for_NFT = 10;
+const PLT_price_for_NFT = 100;
 const PLT_price_for_approve = 10;
 declare var window: any
 
@@ -714,6 +714,9 @@ class App extends React.Component<any, any> {
     const _nonce = await apiGetAccountNonce(address, this.state.chainId);
     const nonce = sanitizeHex(convertStringToHex(_nonce));
 
+    const startAt = new Date();
+    const finishAt = new Date();
+
     // gasPrice
     const gasPrices = await apiGetGasPrices();
     let _gasPrice = gasPrices.slow.price;
@@ -728,7 +731,7 @@ class App extends React.Component<any, any> {
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.sellRequest(sellToken, sellTokenId, buyToken, price, order_type).encodeABI({
+    const data = exchange.methods.sellRequest(sellToken, sellTokenId, buyToken, price, order_type, startAt, finishAt).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
