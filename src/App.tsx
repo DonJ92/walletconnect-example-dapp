@@ -170,9 +170,9 @@ const TO_address_for_PLT = '0x983ab5ff5ff2cd4d0b7b5f67113bb8e41af1e663';
 const PLT_transfer_amount = 10000;
 const TO_address_for_NFT = '0x484df4A08C27f2F3268D6A7A1eF0baDCe1afC10F';
 const NFT_token_id_for_transfer = 3;
-const NFT_token_id_for_approve = 3;
-const NFT_token_id_for_sell = 3;
-const NFT_token_id_for_sell_cancel = 3;
+const NFT_token_id_for_approve = 4;
+const NFT_token_id_for_sell = 4;
+const NFT_token_id_for_sell_cancel = 4;
 const PLT_price_for_NFT = 100;
 const PLT_price_for_approve = 10;
 declare var window: any
