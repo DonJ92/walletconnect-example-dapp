@@ -716,7 +716,7 @@ class App extends React.Component<any, any> {
 
     const currentDate = new Date();
     const startAt = currentDate.getTime();
-    const finishAt = currentDate.getTime();
+    const finishAt = currentDate.getTime()+6000;
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
@@ -771,6 +771,8 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to,
+          startAt,
+          finishAt,
         };
   
         // display result
