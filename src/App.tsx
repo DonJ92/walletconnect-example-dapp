@@ -716,7 +716,7 @@ class App extends React.Component<any, any> {
 
     const currentDate = new Date();
     const startAt = currentDate.getTime();
-    const finishAt = currentDate.getTime()+6000;
+    const finishAt = currentDate.getTime()+600000;
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
