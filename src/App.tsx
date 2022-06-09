@@ -806,6 +806,9 @@ class App extends React.Component<any, any> {
     // sell NFT token id
     const sellTokenId = NFT_token_id_for_sell_cancel;
 
+    // sell token owner address
+    const owner = NFT_owner_address;
+
     // from
     const from = address;
 
@@ -830,7 +833,7 @@ class App extends React.Component<any, any> {
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.cancelSell(sellToken, sellTokenId).encodeABI({
+    const data = exchange.methods.cancelSell(owner, sellToken, sellTokenId).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
