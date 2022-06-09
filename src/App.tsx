@@ -715,8 +715,8 @@ class App extends React.Component<any, any> {
     const nonce = sanitizeHex(convertStringToHex(_nonce));
 
     const currentDate = new Date();
-    const startAt = currentDate.getTime();
-    const finishAt = currentDate.getTime()+600000;
+    const startAt = Math.floor(currentDate.getTime()/1000);
+    const finishAt = Math.floor(currentDate.getTime()/1000) + 60000;
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
