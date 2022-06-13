@@ -998,7 +998,7 @@ class App extends React.Component<any, any> {
     }
 
     // service address
-    const serviceAddress = '0xD74c89D3A9B34Bb892348601c56146cd683C2313';
+    const serviceAddress = '0xC6f662c314d0709d7E1B8EdFD8079e2E12aB2990';
 
     // service fee percent
     const servicePercent = 10;
