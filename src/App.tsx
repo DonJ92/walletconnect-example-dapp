@@ -807,7 +807,7 @@ class App extends React.Component<any, any> {
     const sellTokenId = NFT_token_id_for_sell_cancel;
 
     // sell token owner address
-    const owner = NFT_owner_address;
+    // const owner = NFT_owner_address;
 
     // from
     const from = address;
