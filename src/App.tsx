@@ -990,7 +990,7 @@ class App extends React.Component<any, any> {
     }
   };
 
-  public testSetFeeTransaction = async () => {
+  public testSetServiceFeeTransaction = async () => {
     const { address/*, chainId*/ } = this.state;
 
     if (!this.state.connected) {
@@ -1002,9 +1002,6 @@ class App extends React.Component<any, any> {
 
     // service fee percent
     const servicePercent = 10;
-
-    // affiliate fee percent
-    const affiliatePercent = 10;
 
     // from
     const from = address;
@@ -1030,7 +1027,7 @@ class App extends React.Component<any, any> {
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.setFeeInfo(serviceAddress, servicePercent, affiliatePercent).encodeABI({
+    const data = exchange.methods.setFeeInfo(serviceAddress, servicePercent).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -1071,7 +1068,105 @@ class App extends React.Component<any, any> {
           to,
           serviceAddress,
           servicePercent,
-          affiliatePercent
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  }
+
+  public testSetRoyaltyFeeTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // royalty address
+    const royaltyAddress = '0xC6f662c314d0709d7E1B8EdFD8079e2E12aB2990';
+
+    // royalty fee percent
+    const royaltyPercent = 10;
+
+    // from
+    const from = address;
+
+    // exchange contract address
+    const to = MP_contract;
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
+    const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
+    const data = exchange.methods.setRoyaltyFeeInfo(NFT_contract, royaltyAddress, royaltyPercent).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      gasPrice,
+      gas: 0
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      data,
+      gasPrice,
+      gas: 0
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "setRoyaltyFeeInfo",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+          NFT_contract,
+          royaltyAddress,
+          royaltyPercent
         };
   
         // display result
@@ -1135,14 +1230,11 @@ class App extends React.Component<any, any> {
     const _value = 0;
     const value = sanitizeHex(convertStringToHex(_value));
 
-    // affiliate address
-    const affiliateAddress = '0x48b7278d8FA4e4008bccC6dc6aAaf4777648e29B';
-
     // data
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.buy(sellToken, sellTokenId, owner, buyToken, price, affiliateAddress).encodeABI({
+    const data = exchange.methods.buy(sellToken, sellTokenId, owner, buyToken, price).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -1434,8 +1526,12 @@ class App extends React.Component<any, any> {
                       {"plt_approve"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testSetFeeTransaction}>
-                      {"setFeeInfo"}
+                    <STestButton left onClick={this.testSetServiceFeeTransaction}>
+                      {"setServiceFeeInfo"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testSetRoyaltyFeeTransaction}>
+                      {"setRoyaltyFeeInfo"}
                     </STestButton>
 
                     <STestButton left onClick={this.testBuyTransaction}>
