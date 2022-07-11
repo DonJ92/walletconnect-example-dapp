@@ -833,7 +833,7 @@ class App extends React.Component<any, any> {
     const web3 = new Web3(this.provider as unknown as AbstractProvider);
     // const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.cancelSell(address, sellToken, sellTokenId).encodeABI({
+    const data = exchange.methods.cancelSell(NFT_owner_address, sellToken, sellTokenId).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
