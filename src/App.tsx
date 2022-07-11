@@ -162,17 +162,17 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
-const NFT_contract = '0x0000000000000000000000000000000000001113';
+const NFT_contract = '0x00000000000000000000000000000000000011e6';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
 const MP_contract = '0x4ef24C54Ecf9857790b9bbcFb657Da85F637e055';
 const NFT_owner_address = "0x81c4ed66e83cceaf12d7a5807d91fe55207f0a4a";
 const TO_address_for_PLT = '0x983ab5ff5ff2cd4d0b7b5f67113bb8e41af1e663';
 const PLT_transfer_amount = 10000;
 const TO_address_for_NFT = '0x81c4ed66e83cceaf12d7a5807d91fe55207f0a4a';
-const NFT_token_id_for_transfer = 6;
-const NFT_token_id_for_approve = 6;
-const NFT_token_id_for_sell = 6;
-const NFT_token_id_for_sell_cancel = 6;
+const NFT_token_id_for_transfer = 23;
+const NFT_token_id_for_approve = 23;
+const NFT_token_id_for_sell = 23;
+const NFT_token_id_for_sell_cancel = 23;
 const PLT_price_for_NFT = 100;
 const PLT_price_for_approve = 100;
 declare var window: any
