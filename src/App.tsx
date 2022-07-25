@@ -164,9 +164,10 @@ const STestButton = styled(Button as any)`
 
 const NFT_contract = '0x0000000000000000000000000000000000001113';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
-const MP_contract = '0x4ef24C54Ecf9857790b9bbcFb657Da85F637e055';
-const NFT_owner_address = "0x56a62349274e05b316f4d0e0c6873f7433ee9222";
-const TO_address_for_PLT = '0x983ab5ff5ff2cd4d0b7b5f67113bb8e41af1e663';
+const MP_contract = '0xda38b7Ed67f0b6A5086E4b927DBDbB521Ba272D5';
+const MP_admin_address = "0xc3AFCCC07c63b47ae597466b75bb4aac2751781d";
+const NFT_owner_address = "0xe3e40e6321861c71d0d0b63506a3898a2c2ea402";
+const TO_address_for_PLT = '0x56a62349274e05b316f4d0e0c6873f7433ee9222';
 const PLT_transfer_amount = 10000;
 const TO_address_for_NFT = '0x56a62349274e05b316f4d0e0c6873f7433ee9222';
 const NFT_token_id_for_transfer = 8;
@@ -990,6 +991,97 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testSetAdminAddressTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // from
+    const from = address;
+
+    // exchange contract address
+    const to = MP_contract;
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    // const web3 = new Web3(Web3.givenProvider);
+    const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
+    const data = exchange.methods.setAdminAddress(MP_admin_address).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      gasPrice,
+      gas: 0
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      data,
+      gasPrice,
+      gas: 0
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "setAdminAddress",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+          MP_admin_address
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  }
+
   public testSetServiceFeeTransaction = async () => {
     const { address/*, chainId*/ } = this.state;
 
@@ -1524,6 +1616,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testPLTApproveTransaction}>
                       {"plt_approve"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testSetAdminAddressTransaction}>
+                      {"setAdminAddress"}
                     </STestButton>
 
                     <STestButton left onClick={this.testSetServiceFeeTransaction}>
