@@ -164,7 +164,7 @@ const STestButton = styled(Button as any)`
 
 const NFT_contract = '0x0000000000000000000000000000000000001212';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
-const MP_contract = '0xda38b7Ed67f0b6A5086E4b927DBDbB521Ba272D5';
+const MP_contract = '0x9C35cCA5dd3000A88298bdA560803bdC195D3DbF';
 const MP_admin_address = "0xc3afccc07c63b47ae597466b75bb4aac2751781d";
 const NFT_owner_address = "0xe3e40e6321861c71d0d0b63506a3898a2c2ea402";
 const TO_address_for_PLT = '0x56a62349274e05b316f4d0e0c6873f7433ee9222';
