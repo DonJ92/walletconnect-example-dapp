@@ -273,4 +273,20 @@ export const SUPPORTED_CHAINS: IChainData[] = [
       balance: "",
     },
   },
+  {
+    name: "PLT Main Network",
+    short_name: "PLT",
+    chain: "PLT",
+    network: "mainnet",
+    chain_id: 1718,
+    network_id: 1718,
+    rpc_url: "http://13.231.222.1:22000",
+    native_currency: {
+      symbol: "PLT",
+      name: "PLT",
+      decimals: "0",
+      contractAddress: "0x0000000000000000000000000000000000000103",
+      balance: "",
+    },
+  },
 ];
