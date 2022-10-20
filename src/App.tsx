@@ -412,7 +412,7 @@ class App extends React.Component<any, any> {
     // gasPrice
     const gasPrices = await apiGetGasPrices();
     let _gasPrice = gasPrices.slow.price;
-    _gasPrice = 0;
+    // _gasPrice = 0;
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
     // value
