@@ -162,20 +162,21 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
-const NFT_contract = '0x000000000000000000000000000000000000108d';
+const NFT_contract = '0x0000000000000000000000000000000000001212';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
 const MP_contract = '0x9C35cCA5dd3000A88298bdA560803bdC195D3DbF';
 const MP_admin_address = "0xF66E5951Ed34beF9bd9535859a193bb181f6919B";
 const NFT_owner_address = "0xe3E40e6321861c71D0d0b63506A3898A2C2EA402";
-const TO_address_for_PLT = '0x56a62349274e05b316f4d0e0c6873f7433ee9222';
+const TO_address_for_PLT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
 const PLT_transfer_amount = 100;
-const TO_address_for_NFT = '0x56a62349274e05b316f4d0e0c6873f7433ee9222';
-const NFT_token_id_for_transfer = 2;
-const NFT_token_id_for_approve = 2;
-const NFT_token_id_for_sell = 2;
-const NFT_token_id_for_sell_cancel = 2;
+const TO_address_for_NFT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
+const NFT_token_id_for_transfer = 27;
+const NFT_token_id_for_approve = 27;
+const NFT_token_id_for_sell = 27;
+const NFT_token_id_for_sell_cancel = 27;
 const PLT_price_for_NFT = 50;
 const PLT_price_for_approve = 50;
+const GasLimit = 21000;
 declare var window: any
 
 class App extends React.Component<any, any> {
@@ -433,7 +434,7 @@ class App extends React.Component<any, any> {
       to: contract,
       value,
       gasPrice,
-      gas: 31500
+      gas: GasLimit
     });
 
     const tx: TransactionConfig = {
@@ -443,7 +444,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 31500
+      gas: GasLimit
     };
 
     try {
@@ -531,7 +532,7 @@ class App extends React.Component<any, any> {
       to: contract,
       value,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     });
 
     const tx: TransactionConfig = {
@@ -541,7 +542,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     };
 
     try {
