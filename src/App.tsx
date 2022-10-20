@@ -416,7 +416,7 @@ class App extends React.Component<any, any> {
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
     // value
-    const _value = PLT_transfer_amount;
+    const _value = 0;
     const value = sanitizeHex(convertStringToHex(_value * Math.pow(10,18)));
 
     // value
