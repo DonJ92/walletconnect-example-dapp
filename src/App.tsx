@@ -424,8 +424,8 @@ class App extends React.Component<any, any> {
     const plt_value = sanitizeHex(convertStringToHex(_plt_value * Math.pow(10,18)));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.transferFrom(from, to, plt_value).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -522,8 +522,8 @@ class App extends React.Component<any, any> {
     const nft_value_id = _nft_token_id;
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
     const data = NFT.methods.transferFrom(from, to, nft_value_id).encodeABI({
       nonce: parseInt(nonce, 16),
