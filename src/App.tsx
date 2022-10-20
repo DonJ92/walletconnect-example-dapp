@@ -166,10 +166,10 @@ const NFT_contract = '0x0000000000000000000000000000000000001113';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
 const MP_contract = '0x9C35cCA5dd3000A88298bdA560803bdC195D3DbF';
 const MP_admin_address = "0xF66E5951Ed34beF9bd9535859a193bb181f6919B";
-const NFT_owner_address = "0xe3E40e6321861c71D0d0b63506A3898A2C2EA402";
+const NFT_owner_address = "0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa";
 const TO_address_for_PLT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
 const PLT_transfer_amount = 100;
-const TO_address_for_NFT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
+const TO_address_for_NFT = '0xe3E40e6321861c71D0d0b63506A3898A2C2EA402';
 const NFT_token_id_for_transfer = 8;
 const NFT_token_id_for_approve = 8;
 const NFT_token_id_for_sell = 8;
@@ -523,8 +523,8 @@ class App extends React.Component<any, any> {
     const nft_value_id = _nft_token_id;
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
     const data = NFT.methods.transferFrom(from, to, nft_value_id).encodeABI({
       nonce: parseInt(nonce, 16),
