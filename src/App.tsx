@@ -164,8 +164,8 @@ const STestButton = styled(Button as any)`
 
 const NFT_contract = '0x0000000000000000000000000000000000001113';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
-const MP_contract = '0x9C35cCA5dd3000A88298bdA560803bdC195D3DbF';
-const MP_admin_address = "0xF66E5951Ed34beF9bd9535859a193bb181f6919B";
+const MP_contract = '0x4D82425C3EaD65f3cCC1805Ce219c0e62335a52b';
+const MP_admin_address = "0x40530d3b136b847454D73669A88F6F688DD6e091";
 const NFT_owner_address = "0xe3E40e6321861c71D0d0b63506A3898A2C2EA402";
 const TO_address_for_PLT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
 const PLT_transfer_amount = 100;
@@ -621,8 +621,8 @@ class App extends React.Component<any, any> {
     const exchange_address = MP_contract;
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
     const data = NFT.methods.approve(exchange_address, _nft_token_id).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -630,7 +630,7 @@ class App extends React.Component<any, any> {
       to: contract,
       value,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     });
 
     const tx: TransactionConfig = {
@@ -640,7 +640,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     };
 
     try {
@@ -732,8 +732,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.sellRequest(sellToken, sellTokenId, buyToken, price, order_type, startAt, finishAt).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -741,7 +741,7 @@ class App extends React.Component<any, any> {
       to,
       value,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     });
 
     const tx: TransactionConfig = {
@@ -751,7 +751,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     };
 
     try {
@@ -833,8 +833,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.cancelSell(NFT_owner_address, sellToken, sellTokenId).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -842,7 +842,7 @@ class App extends React.Component<any, any> {
       to,
       value,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     });
 
     const tx: TransactionConfig = {
@@ -852,7 +852,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     };
 
     try {
@@ -930,8 +930,8 @@ class App extends React.Component<any, any> {
     const exchange_address = MP_contract;
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
     const data = PLT.methods.approve(exchange_address, price).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -939,7 +939,7 @@ class App extends React.Component<any, any> {
       to: contract,
       value,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     });
 
     const tx: TransactionConfig = {
@@ -949,7 +949,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     };
 
     try {
@@ -1325,8 +1325,8 @@ class App extends React.Component<any, any> {
     const value = sanitizeHex(convertStringToHex(_value));
 
     // data
-    const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    // const web3 = new Web3(Web3.givenProvider);
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
     const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
     const data = exchange.methods.buy(sellToken, sellTokenId, owner, buyToken, price).encodeABI({
       nonce: parseInt(nonce, 16),
@@ -1334,7 +1334,7 @@ class App extends React.Component<any, any> {
       to,
       value,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     });
 
     const tx: TransactionConfig = {
@@ -1344,7 +1344,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 0
+      gas: GasLimit
     };
 
     try {
@@ -1409,8 +1409,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      // const web3 = new Web3(Web3.givenProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.sign(hexMsg, address)
 
@@ -1461,8 +1461,8 @@ class App extends React.Component<any, any> {
       // toggle pending request indicator
       this.setState({ pendingRequest: true });
 
-      const web3 = new Web3(this.provider as unknown as AbstractProvider);
-      // const web3 = new Web3(Web3.givenProvider);
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
 
       const result = await web3.eth.personal.sign(hexMsg, address, '')
 
