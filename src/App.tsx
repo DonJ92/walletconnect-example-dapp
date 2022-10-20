@@ -186,9 +186,9 @@ class App extends React.Component<any, any> {
   public provider: WalletConnectProvider = new WalletConnectProvider({
     rpc: {
 //      101: "https://testnet.palette-rpc.com:22000",
-      // 102: "https://tempnet-1.palette-rpc.com:22000",
+      102: "https://tempnet-1.palette-rpc.com:22000",
 //      103: "http://3.112.217.80:22000",
-      1718: "http://13.231.222.1:22000"
+      // 1718: "http://13.231.222.1:22000"
     },
   });
 
@@ -1570,6 +1570,9 @@ class App extends React.Component<any, any> {
                 <SButtonContainer>
                   <SConnectButton left onClick={this.connect} fetching={fetching}>
                     {"Connect to WalletConnect"}
+                  </SConnectButton>
+                  <SConnectButton left onClick={this.metamaskConnect} fetching={fetching}>
+                    {"Connect to MetaMask"}
                   </SConnectButton>
                 </SButtonContainer>
               </SLanding>
