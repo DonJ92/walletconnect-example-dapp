@@ -412,7 +412,7 @@ class App extends React.Component<any, any> {
     // gasPrice
     const gasPrices = await apiGetGasPrices();
     let _gasPrice = gasPrices.slow.price;
-    _gasPrice = 21000;
+    _gasPrice = 0;
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
     // value
@@ -433,7 +433,7 @@ class App extends React.Component<any, any> {
       to: contract,
       value,
       gasPrice,
-      gas: 0
+      gas: 31500
     });
 
     const tx: TransactionConfig = {
@@ -443,7 +443,7 @@ class App extends React.Component<any, any> {
       value,
       data,
       gasPrice,
-      gas: 0
+      gas: 31500
     };
 
     try {
