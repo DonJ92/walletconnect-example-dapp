@@ -164,12 +164,12 @@ const STestButton = styled(Button as any)`
 
 const NFT_contract = '0x0000000000000000000000000000000000001113';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
-const MP_contract = '0x4D82425C3EaD65f3cCC1805Ce219c0e62335a52b';
-const MP_admin_address = "0x40530d3b136b847454D73669A88F6F688DD6e091";
+const MP_contract = '0x7D09cEf5Bc01ABDc3BD0Bf7A7b566317d6960844';
+const MP_admin_address = "0xC6f662c314d0709d7E1B8EdFD8079e2E12aB2990";
 const NFT_owner_address = "0xe3E40e6321861c71D0d0b63506A3898A2C2EA402";
 const TO_address_for_PLT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
 const PLT_transfer_amount = 100;
-const TO_address_for_NFT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
+const TO_address_for_NFT = '0xe3E40e6321861c71D0d0b63506A3898A2C2EA402';
 const NFT_token_id_for_transfer = 8;
 const NFT_token_id_for_approve = 8;
 const NFT_token_id_for_sell = 8;
@@ -1193,7 +1193,7 @@ class App extends React.Component<any, any> {
     const royaltyAddress = '0xC6f662c314d0709d7E1B8EdFD8079e2E12aB2990';
 
     // royalty fee percent
-    const royaltyPercent = 10;
+    const royaltyPercent = 5;
 
     // from
     const from = address;
