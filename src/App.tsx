@@ -1559,7 +1559,7 @@ class App extends React.Component<any, any> {
         // toggle pending request indicator
         this.setState({ pendingRequest: true });
 
-        web3.eth.sendTransaction(tx)
+        await web3.eth.sendTransaction(tx)
         .once('sending', (payload: any) => { console.log('sending') })
         .once('sent', (payload: any) => { console.log('sent') })
         .once('transactionHash', (hash: string) => { console.log(hash) })
