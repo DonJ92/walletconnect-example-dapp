@@ -1521,7 +1521,7 @@ class App extends React.Component<any, any> {
     const _value = 0;
     const value = sanitizeHex(convertStringToHex(_value));
 
-    for (var i = 0; i < Auction_token_ids.length; i++) {
+    for (let i = 0; i < Auction_token_ids.length; i++) {
       // token id
       const _nft_token_id = Auction_token_ids[i];
       const nft_value_id = _nft_token_id;
