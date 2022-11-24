@@ -1708,6 +1708,22 @@ class App extends React.Component<any, any> {
                       {"nft_transfer"}
                     </STestButton>
 
+                    <STestButton left onClick={this.testSetAdminAddressTransaction}>
+                      {"setAdminAddress"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testSetServiceFeeTransaction}>
+                      {"setServiceFeeInfo"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testSetRoyaltyFeeTransaction}>
+                      {"setRoyaltyFeeInfo"}
+                    </STestButton>
+                  </STestButtonContainer>
+                </Column>
+                <h3>Exchange</h3>
+                <Column center>
+                  <STestButtonContainer>
                     <STestButton left onClick={this.testNFTApproveTransaction}>
                       {"nft_approve"}
                     </STestButton>
@@ -1724,22 +1740,14 @@ class App extends React.Component<any, any> {
                       {"plt_approve"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testSetAdminAddressTransaction}>
-                      {"setAdminAddress"}
-                    </STestButton>
-
-                    <STestButton left onClick={this.testSetServiceFeeTransaction}>
-                      {"setServiceFeeInfo"}
-                    </STestButton>
-
-                    <STestButton left onClick={this.testSetRoyaltyFeeTransaction}>
-                      {"setRoyaltyFeeInfo"}
-                    </STestButton>
-
                     <STestButton left onClick={this.testBuyTransaction}>
                       {"buy"}
                     </STestButton>
-
+                  </STestButtonContainer>
+                </Column>
+                <h3>Auction</h3>
+                <Column center>
+                  <STestButtonContainer>
                     <STestButton left onClick={this.testAuctionNFTApproveTransaction}>
                       {"auction_nft_approve"}
                     </STestButton>
