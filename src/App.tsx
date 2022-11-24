@@ -28,6 +28,7 @@ import {AbiItem} from 'web3-utils';
 import PLTABI from './contracts/PLT.json';
 import NFTABI from './contracts/NFT.json';
 import ExchangeABI from './contracts/Exchange.json';
+import AuctionABI from './contracts/Auction.json';
 import { AbstractProvider, TransactionConfig } from 'web3-core/types'
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
@@ -162,7 +163,7 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
-const NFT_contract = '0x0000000000000000000000000000000000001113';
+const NFT_contract = '0x0000000000000000000000000000000000001212';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
 const MP_contract = '0x7D09cEf5Bc01ABDc3BD0Bf7A7b566317d6960844';
 const Auction_contract = '0x4135c678D3dF9BA1C48f4B80f5c234C84A7E634d';
@@ -177,7 +178,7 @@ const NFT_token_id_for_sell = 8;
 const NFT_token_id_for_sell_cancel = 8;
 const PLT_price_for_NFT = 50;
 const PLT_price_for_approve = 50;
-const Auction_token_ids = [8];
+const Auction_token_ids = [2,12,21];
 const GasLimit = 21000;
 declare var window: any
 
@@ -1526,14 +1527,14 @@ class App extends React.Component<any, any> {
       const _nft_token_id = Auction_token_ids[i];
       const nft_value_id = _nft_token_id;
 
-      // exchange contract address
-      const exchange_address = Auction_contract;
+      // auction contract address
+      const auction_address = Auction_contract;
 
       // data
       // const web3 = new Web3(this.provider as unknown as AbstractProvider);
       const web3 = new Web3(Web3.givenProvider);
       const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
-      const data = NFT.methods.approve(exchange_address, _nft_token_id).encodeABI({
+      const data = NFT.methods.approve(auction_address, _nft_token_id).encodeABI({
         nonce: parseInt(nonce, 16),
         from,
         to: contract,
@@ -1620,7 +1621,7 @@ class App extends React.Component<any, any> {
     // from
     const from = address;
 
-    // exchange contract address
+    // auction contract address
     const to = Auction_contract;
 
     // nonce
@@ -1644,8 +1645,8 @@ class App extends React.Component<any, any> {
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
-    const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.sellRequest(sellToken, sellTokenIds, buyToken, price, order_type, startAt, finishAt).encodeABI({
+    const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
+    const data = auction.methods.sellRequest(sellToken, sellTokenIds, buyToken, price, order_type, startAt, finishAt).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -1725,7 +1726,7 @@ class App extends React.Component<any, any> {
     // from
     const from = address;
 
-    // exchange contract address
+    // auction contract address
     const to = Auction_contract;
 
     // nonce
@@ -1745,8 +1746,8 @@ class App extends React.Component<any, any> {
     // data
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
-    const exchange = new web3.eth.Contract(ExchangeABI as AbiItem[], to);
-    const data = exchange.methods.cancelSell(NFT_owner_address, sellToken, sellTokenIds).encodeABI({
+    const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
+    const data = auction.methods.cancelSell(NFT_owner_address, sellToken, sellTokenIds).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
