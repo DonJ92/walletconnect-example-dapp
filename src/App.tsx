@@ -1721,7 +1721,7 @@ class App extends React.Component<any, any> {
     const sellTokenIds = Auction_token_ids;
 
     // sell token owner address
-    // const owner = NFT_owner_address;
+    const owner = NFT_owner_address;
 
     // from
     const from = address;
@@ -1747,7 +1747,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.cancelSell(NFT_owner_address, sellToken, sellTokenIds).encodeABI({
+    const data = auction.methods.cancelSell(owner, sellToken, sellTokenIds).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -2225,6 +2225,105 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testAuctionBidCancelTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // sell NFT token contract address
+    const sellToken = NFT_contract;
+
+    // sell NFT token id
+    const sellTokenIds = Auction_token_ids;
+
+    // sell token owner address
+    const owner = NFT_owner_address;
+
+    // from
+    const from = address;
+
+    // auction contract address
+    const to = Auction_contract;
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
+    const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
+    const data = auction.methods.cancelBid(owner, sellToken, sellTokenIds, address).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      gasPrice,
+      gas: GasLimit
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      data,
+      gasPrice,
+      gas: GasLimit
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "bid cancel",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
+
 //   public testSignTypedData = async () => {
 //     const { address, chainId } = this.state;
 
@@ -2405,6 +2504,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testAuctionBidRequest3Transaction}>
                       {"bid_request 3"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testAuctionBidCancelTransaction}>
+                      {"bid_cancel"}
                     </STestButton>
                   </STestButtonContainer>
                 </Column>
