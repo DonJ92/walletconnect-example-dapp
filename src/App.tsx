@@ -1806,7 +1806,7 @@ class App extends React.Component<any, any> {
     }
   };
   
-  public testAuctionBidRequestTransaction = async (bidPrice: any) => {
+  public testAuctionBidRequestTransaction = async () => {
     const { address/*, chainId*/ } = this.state;
 
     if (!this.state.connected) {
@@ -1832,7 +1832,7 @@ class App extends React.Component<any, any> {
     const to = Auction_contract;
 
     // price
-    const _plt_price = bidPrice;
+    const _plt_price = 55;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
@@ -2079,15 +2079,15 @@ class App extends React.Component<any, any> {
                       {"sell_cancel"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testAuctionBidRequestTransaction(105)}>
+                    <STestButton left onClick={this.testAuctionBidRequestTransaction}>
                       {"bid_request 1"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testAuctionBidRequestTransaction(110)}>
+                    <STestButton left onClick={this.testAuctionBidRequestTransaction}>
                       {"bid_request 2"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testAuctionBidRequestTransaction(115)}>
+                    <STestButton left onClick={this.testAuctionBidRequestTransaction}>
                       {"bid_request 3"}
                     </STestButton>
                   </STestButtonContainer>
