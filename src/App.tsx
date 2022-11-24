@@ -1806,7 +1806,7 @@ class App extends React.Component<any, any> {
     }
   };
   
-  public testAuctionBidRequestTransaction = async () => {
+  public testAuctionBidRequest1Transaction = async () => {
     const { address/*, chainId*/ } = this.state;
 
     if (!this.state.connected) {
@@ -1833,6 +1833,220 @@ class App extends React.Component<any, any> {
 
     // price
     const _plt_price = 55;
+    const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
+    const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
+    const data = auction.methods.bidRequest(sellToken, sellTokenIds, owner, buyToken, price).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      gasPrice,
+      gas: GasLimit
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      data,
+      gasPrice,
+      gas: GasLimit
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "bid request",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+          price
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
+
+  public testAuctionBidRequest2Transaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // sell NFT token contract address
+    const sellToken = NFT_contract;
+
+    // sell NFT token id
+    const sellTokenIds = Auction_token_ids;
+
+    // sell token owner address
+    const owner = NFT_owner_address;
+
+    // PLT token contract address
+    const buyToken = PLT_contract;
+
+    // from
+    const from = address;
+
+    // auction contract address
+    const to = Auction_contract;
+
+    // price
+    const _plt_price = 60;
+    const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
+    const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
+    const data = auction.methods.bidRequest(sellToken, sellTokenIds, owner, buyToken, price).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      gasPrice,
+      gas: GasLimit
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      data,
+      gasPrice,
+      gas: GasLimit
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "bid request",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+          price
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
+
+  public testAuctionBidRequest3Transaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // sell NFT token contract address
+    const sellToken = NFT_contract;
+
+    // sell NFT token id
+    const sellTokenIds = Auction_token_ids;
+
+    // sell token owner address
+    const owner = NFT_owner_address;
+
+    // PLT token contract address
+    const buyToken = PLT_contract;
+
+    // from
+    const from = address;
+
+    // auction contract address
+    const to = Auction_contract;
+
+    // price
+    const _plt_price = 65;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
@@ -2079,15 +2293,15 @@ class App extends React.Component<any, any> {
                       {"sell_cancel"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testAuctionBidRequestTransaction}>
+                    <STestButton left onClick={this.testAuctionBidRequest1Transaction}>
                       {"bid_request 1"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testAuctionBidRequestTransaction}>
+                    <STestButton left onClick={this.testAuctionBidRequest2Transaction}>
                       {"bid_request 2"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testAuctionBidRequestTransaction}>
+                    <STestButton left onClick={this.testAuctionBidRequest3Transaction}>
                       {"bid_request 3"}
                     </STestButton>
                   </STestButtonContainer>
