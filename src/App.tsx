@@ -177,7 +177,7 @@ const NFT_token_id_for_approve = 8;
 const NFT_token_id_for_sell = 8;
 const NFT_token_id_for_sell_cancel = 8;
 const PLT_price_for_NFT = 50;
-const PLT_price_for_approve = 50;
+const PLT_price_for_approve = 100;
 const Auction_token_ids = [8];
 const GasLimit = 21000;
 declare var window: any
@@ -2291,6 +2291,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testAuctionSellCancelTransaction}>
                       {"sell_cancel"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testPLTApproveTransaction}>
+                      {"plt_approve"}
                     </STestButton>
 
                     <STestButton left onClick={this.testAuctionBidRequest1Transaction}>
