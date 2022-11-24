@@ -1990,7 +1990,7 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to,
-          price
+          bidPrice: _plt_price
         };
   
         // display result
@@ -2097,7 +2097,7 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to,
-          price
+          bidPrice: _plt_price
         };
   
         // display result
@@ -2204,7 +2204,7 @@ class App extends React.Component<any, any> {
           txHash: res.transactionHash,
           from: address,
           to,
-          price
+          bidPrice: _plt_price
         };
   
         // display result
