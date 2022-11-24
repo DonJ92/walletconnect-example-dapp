@@ -2324,6 +2324,110 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testAuctionFinishTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // sell NFT token contract address
+    const sellToken = NFT_contract;
+
+    // sell NFT token id
+    const sellTokenIds = Auction_token_ids;
+
+    // from
+    const from = address;
+
+    // exchange contract address
+    const to = Auction_contract;
+
+    // sell token owner address
+    const owner = NFT_owner_address;
+
+    // buy erc20 token contract address
+    const buyToken = PLT_contract;
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // data
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
+    const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
+    const data = auction.methods.finishAuction(owner, sellToken, sellTokenIds, buyToken).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      gasPrice,
+      gas: GasLimit
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to,
+      value,
+      data,
+      gasPrice,
+      gas: GasLimit
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "FinishAuction",
+          txHash: res.transactionHash,
+          from: address,
+          to,
+          seller: owner,
+          sellToken: sellToken,
+          sellTokenIds: sellTokenIds,
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
+
 //   public testSignTypedData = async () => {
 //     const { address, chainId } = this.state;
 
@@ -2508,6 +2612,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testAuctionBidCancelTransaction}>
                       {"bid_cancel"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testAuctionFinishTransaction}>
+                      {"finish_auction"}
                     </STestButton>
                   </STestButtonContainer>
                 </Column>
