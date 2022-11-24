@@ -177,7 +177,7 @@ const NFT_token_id_for_approve = 8;
 const NFT_token_id_for_sell = 8;
 const NFT_token_id_for_sell_cancel = 8;
 const PLT_price_for_NFT = 50;
-const PLT_price_for_approve = 100;
+const PLT_price_for_approve = 50;
 const Auction_token_ids = [8];
 const GasLimit = 21000;
 declare var window: any
@@ -1805,6 +1805,104 @@ class App extends React.Component<any, any> {
       this.setState({ /*connector, */pendingRequest: false, result: null });
     }
   };
+
+  public testAuctionPLTApproveTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // contract address
+    const contract = PLT_contract;
+
+    // from
+    const from = address;
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    // price
+    const _plt_price = 100;
+    const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
+
+    // auction contract address
+    const auction_address = Auction_contract;
+
+    // data
+    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+    const web3 = new Web3(Web3.givenProvider);
+    const PLT = new web3.eth.Contract(PLTABI as AbiItem[], contract);
+    const data = PLT.methods.approve(auction_address, price).encodeABI({
+      nonce: parseInt(nonce, 16),
+      from,
+      to: contract,
+      value,
+      gasPrice,
+      gas: GasLimit
+    });
+
+    const tx: TransactionConfig = {
+      nonce: parseInt(nonce, 16),
+      from,
+      to: contract,
+      value,
+      data,
+      gasPrice,
+      gas: GasLimit
+    };
+
+    try {
+      // open modal
+      this.toggleModal();
+
+      // toggle pending request indicator
+      this.setState({ pendingRequest: true });
+
+      web3.eth.sendTransaction(tx)
+      .once('sending', (payload: any) => { console.log('sending') })
+      .once('sent', (payload: any) => { console.log('sent') })
+      .once('transactionHash', (hash: string) => { console.log(hash) })
+      .once('receipt', (receipt: any) => { console.log(receipt) })
+      .then((res: any) => {
+        console.log(res);
+
+        const formattedResult = {
+          method: "approve plt",
+          txHash: res.transactionHash,
+          from: address,
+          to: contract,
+          plt_price: `${_plt_price}`,
+        };
+  
+        // display result
+        this.setState({
+          // connector,
+          pendingRequest: false,
+          result: formattedResult || null,
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      })
+
+    } catch (error) {
+      console.error(error);
+      this.setState({ /*connector, */pendingRequest: false, result: null });
+    }
+  };
   
   public testAuctionBidRequest1Transaction = async () => {
     const { address/*, chainId*/ } = this.state;
@@ -2293,7 +2391,7 @@ class App extends React.Component<any, any> {
                       {"sell_cancel"}
                     </STestButton>
 
-                    <STestButton left onClick={this.testPLTApproveTransaction}>
+                    <STestButton left onClick={this.testAuctionPLTApproveTransaction}>
                       {"plt_approve"}
                     </STestButton>
 
