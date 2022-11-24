@@ -162,9 +162,10 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
-const NFT_contract = '0x0000000000000000000000000000000000001113';
+const NFT_contract = '0x0000000000000000000000000000000000001212';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
 const MP_contract = '0x7D09cEf5Bc01ABDc3BD0Bf7A7b566317d6960844';
+const Auction_contract = '0x4135c678D3dF9BA1C48f4B80f5c234C84A7E634d';
 const MP_admin_address = "0xC6f662c314d0709d7E1B8EdFD8079e2E12aB2990";
 const NFT_owner_address = "0xe3E40e6321861c71D0d0b63506A3898A2C2EA402";
 const TO_address_for_PLT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
@@ -176,6 +177,7 @@ const NFT_token_id_for_sell = 8;
 const NFT_token_id_for_sell_cancel = 8;
 const PLT_price_for_NFT = 50;
 const PLT_price_for_approve = 50;
+const Auction_token_ids = [2, 12, 21];
 const GasLimit = 21000;
 declare var window: any
 
@@ -1492,6 +1494,106 @@ class App extends React.Component<any, any> {
     }
   };
 
+  public testAuctionNFTApproveTransaction = async () => {
+    const { address/*, chainId*/ } = this.state;
+
+    if (!this.state.connected) {
+      return;
+    }
+
+    // contract address
+    const contract = NFT_contract;
+
+    // from
+    const from = address;
+
+    // nonce
+    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
+    const nonce = sanitizeHex(convertStringToHex(_nonce));
+
+    // gasPrice
+    const gasPrices = await apiGetGasPrices();
+    let _gasPrice = gasPrices.slow.price;
+    _gasPrice = 0;
+    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
+
+    // value
+    const _value = 0;
+    const value = sanitizeHex(convertStringToHex(_value));
+
+    for (var i = 0; i < Auction_token_ids.length; i++) {
+      // token id
+      const _nft_token_id = Auction_token_ids[i];
+      const nft_value_id = _nft_token_id;
+
+      // exchange contract address
+      const exchange_address = Auction_contract;
+
+      // data
+      // const web3 = new Web3(this.provider as unknown as AbstractProvider);
+      const web3 = new Web3(Web3.givenProvider);
+      const NFT = new web3.eth.Contract(NFTABI as AbiItem[], contract);
+      const data = NFT.methods.approve(exchange_address, _nft_token_id).encodeABI({
+        nonce: parseInt(nonce, 16),
+        from,
+        to: contract,
+        value,
+        gasPrice,
+        gas: GasLimit
+      });
+
+      const tx: TransactionConfig = {
+        nonce: parseInt(nonce, 16),
+        from,
+        to: contract,
+        value,
+        data,
+        gasPrice,
+        gas: GasLimit
+      };
+
+      try {
+        // open modal
+        this.toggleModal();
+
+        // toggle pending request indicator
+        this.setState({ pendingRequest: true });
+
+        web3.eth.sendTransaction(tx)
+        .once('sending', (payload: any) => { console.log('sending') })
+        .once('sent', (payload: any) => { console.log('sent') })
+        .once('transactionHash', (hash: string) => { console.log(hash) })
+        .once('receipt', (receipt: any) => { console.log(receipt) })
+        .then((res: any) => {
+          console.log(res);
+
+          const formattedResult = {
+            method: "approve nft",
+            txHash: res.transactionHash,
+            from: address,
+            to: contract,
+            token: `${nft_value_id}`,
+          };
+    
+          // display result
+          this.setState({
+            // connector,
+            pendingRequest: false,
+            result: formattedResult || null,
+          });
+        })
+        .catch((err: any) => {
+          console.log(err);
+          this.setState({ /*connector, */pendingRequest: false, result: null });
+        })
+
+      } catch (error) {
+        console.error(error);
+        this.setState({ /*connector, */pendingRequest: false, result: null });
+      }
+    }
+  };
+
 //   public testSignTypedData = async () => {
 //     const { address, chainId } = this.state;
 
@@ -1636,6 +1738,10 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testBuyTransaction}>
                       {"buy"}
+                    </STestButton>
+
+                    <STestButton left onClick={this.testAuctionNFTApproveTransaction}>
+                      {"auction_nft_approve"}
                     </STestButton>
                   </STestButtonContainer>
                 </Column>
