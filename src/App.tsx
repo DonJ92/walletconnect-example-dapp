@@ -2406,8 +2406,8 @@ class App extends React.Component<any, any> {
           from: address,
           to,
           seller: owner,
-          sellToken: sellToken,
-          sellTokenIds: sellTokenIds,
+          sellToken,
+          sellTokenIds,
         };
   
         // display result
