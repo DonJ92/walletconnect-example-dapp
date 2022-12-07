@@ -178,7 +178,7 @@ const NFT_token_id_for_sell = 8;
 const NFT_token_id_for_sell_cancel = 8;
 const PLT_price_for_NFT = 50;
 const PLT_price_for_approve = 50;
-const Auction_token_ids = [1438, 8174];
+const Auction_token_ids = [1438,8174];
 const GasLimit = 21000;
 declare var window: any
 
