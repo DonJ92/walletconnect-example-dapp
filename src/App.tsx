@@ -2369,7 +2369,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.finishAuction(owner, sellToken, sellTokenIds, buyToken).encodeABI({
+    const data = auction.methods.finishAuction(owner, sellToken, sellTokenIds, buyToken, false).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
