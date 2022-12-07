@@ -163,7 +163,7 @@ const STestButton = styled(Button as any)`
 //   assets: [],
 // };
 
-const NFT_contract = '0x0000000000000000000000000000000000001113';
+const NFT_contract = '0x000000000000000000000000000000000000111c';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
 const MP_contract = '0x7D09cEf5Bc01ABDc3BD0Bf7A7b566317d6960844';
 const Auction_contract = '0xa57CE8f624faD2305f0837587450d349BccF5479';
@@ -178,7 +178,7 @@ const NFT_token_id_for_sell = 8;
 const NFT_token_id_for_sell_cancel = 8;
 const PLT_price_for_NFT = 50;
 const PLT_price_for_approve = 50;
-const Auction_token_ids = [8];
+const Auction_token_ids = [1438, 8174];
 const GasLimit = 21000;
 declare var window: any
 
