@@ -1,18 +1,5 @@
 [
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "tokenAddress",
-				"type": "address"
-			}
-		],
-		"name": "addBuyTokenWhiteList",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -26,62 +13,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sellToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "sellTokenIds",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "buyToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"name": "bidRequest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "seller",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "sellToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "sellTokenIds",
-				"type": "uint256[]"
-			}
-		],
-		"name": "cancelSell",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -117,7 +48,7 @@
 			{
 				"indexed": false,
 				"internalType": "address",
-				"name": "buyer",
+				"name": "bidder",
 				"type": "address"
 			}
 		],
@@ -221,7 +152,7 @@
 			{
 				"indexed": false,
 				"internalType": "address",
-				"name": "buyer",
+				"name": "bidder",
 				"type": "address"
 			},
 			{
@@ -229,38 +160,16 @@
 				"internalType": "uint256",
 				"name": "exchangeType",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "state",
+				"type": "uint256"
 			}
 		],
 		"name": "Exchange",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "seller",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "sellToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "sellTokenIds",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "address",
-				"name": "buyToken",
-				"type": "address"
-			}
-		],
-		"name": "finishAuction",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -305,25 +214,12 @@
 			{
 				"indexed": false,
 				"internalType": "address",
-				"name": "buyer",
+				"name": "bidder",
 				"type": "address"
 			}
 		],
 		"name": "RemoveBidOrder",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "tokenAddress",
-				"type": "address"
-			}
-		],
-		"name": "removeBuyTokenWhiteList",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -364,74 +260,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sellToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "sellTokenIds",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "address",
-				"name": "buyToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "reservePrice",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "orderType",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "startAt",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "finishAt",
-				"type": "uint256"
-			}
-		],
-		"name": "sellRequest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "adminAddr",
-				"type": "address"
-			}
-		],
-		"name": "setAdminAddress",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -443,24 +271,6 @@
 		],
 		"name": "SetAdminAddress",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "serviceAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "servicePercent",
-				"type": "uint256"
-			}
-		],
-		"name": "setFeeInfo",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -488,29 +298,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "token",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "royaltyAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "royaltyPercent",
-				"type": "uint256"
-			}
-		],
-		"name": "setRoyaltyFeeInfo",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -528,19 +315,6 @@
 		],
 		"name": "SetServiceFee",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -605,6 +379,110 @@
 	},
 	{
 		"inputs": [],
+		"name": "AUCTION",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "CANCELED_BELOW_RESERVE_PRICE_STATE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "CANCELED_NO_BID_STATE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "CREATED_STATE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "EXTENDED_STATE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FIXED_PRICE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "SUCCEEDED_STATE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "addBuyTokenWhiteList",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "adminAddress",
 		"outputs": [
 			{
@@ -617,16 +495,115 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "AUCTION",
-		"outputs": [
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
 		],
+		"name": "auctions",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "sellToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sellTokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "buyToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "orderType",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "finishAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "bidder",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "reservePrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currentBidPrice",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sellToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "sellTokenIds",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "buyToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"name": "bidRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -649,12 +626,114 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "FIXED_PRICE",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "sellToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "sellTokenIds",
+				"type": "uint256[]"
+			}
+		],
+		"name": "cancelSell",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "sellToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "sellTokenIds",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address",
+				"name": "buyToken",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "accountDeleted",
+				"type": "bool"
+			}
+		],
+		"name": "finishAuction",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_nftAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getAuction",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "currentBidPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "bidder",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "seller",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startingPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "reservePrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "finishAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "state",
 				"type": "uint256"
 			}
 		],
@@ -688,6 +767,74 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "removeBuyTokenWhiteList",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sellToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "sellTokenIds",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "address",
+				"name": "buyToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "reservePrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "orderType",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "finishAt",
+				"type": "uint256"
+			}
+		],
+		"name": "sellRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "serviceFeeAddress",
 		"outputs": [
@@ -711,6 +858,73 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "adminAddr",
+				"type": "address"
+			}
+		],
+		"name": "setAdminAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "serviceAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "servicePercent",
+				"type": "uint256"
+			}
+		],
+		"name": "setFeeInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "royaltyAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royaltyPercent",
+				"type": "uint256"
+			}
+		],
+		"name": "setRoyaltyFeeInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
