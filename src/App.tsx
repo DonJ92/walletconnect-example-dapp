@@ -166,9 +166,10 @@ const STestButton = styled(Button as any)`
 const NFT_contract = '0x0000000000000000000000000000000000001113';
 const PLT_contract = '0x0000000000000000000000000000000000000103';
 const MP_contract = '0x7D09cEf5Bc01ABDc3BD0Bf7A7b566317d6960844';
-const Auction_contract = '0x48C041E72F1E1B856c8C9269158aC50e076B4d1F';
+const Auction_contract = '0x9d6c1E35B5195C42F2c2A89CdF8F650FD09c916b';
 const MP_admin_address = "0xC6f662c314d0709d7E1B8EdFD8079e2E12aB2990";
 const NFT_owner_address = "0xe3E40e6321861c71D0d0b63506A3898A2C2EA402";
+const NFT_seller_address = "0xffD75E714575C23556F868a796b0792390253ABF"
 const TO_address_for_PLT = '0xAC420ef234768A6D32D83AE7E9F9D9eFa32464Aa';
 const PLT_transfer_amount = 100;
 const TO_address_for_NFT = '0xe3E40e6321861c71D0d0b63506A3898A2C2EA402';
@@ -1648,7 +1649,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.sellRequest(sellToken, sellTokenIds, buyToken, price, reservePrice, order_type, startAt, finishAt).encodeABI({
+    const data = auction.methods.sellRequest(NFT_seller_address, sellToken, sellTokenIds, buyToken, price, reservePrice, order_type, startAt, finishAt).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -1749,7 +1750,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.cancelSell(owner, sellToken, sellTokenIds).encodeABI({
+    const data = auction.methods.cancelSell(NFT_seller_address, sellToken, sellTokenIds, owner).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -1953,7 +1954,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.bidRequest(sellToken, sellTokenIds, owner, buyToken, price).encodeABI({
+    const data = auction.methods.bidRequest(NFT_seller_address, sellToken, sellTokenIds, buyToken, price).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -2060,7 +2061,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.bidRequest(sellToken, sellTokenIds, owner, buyToken, price).encodeABI({
+    const data = auction.methods.bidRequest(NFT_seller_address, sellToken, sellTokenIds, buyToken, price).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -2167,7 +2168,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.bidRequest(sellToken, sellTokenIds, owner, buyToken, price).encodeABI({
+    const data = auction.methods.bidRequest(NFT_seller_address, sellToken, sellTokenIds, buyToken, price).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -2207,105 +2208,6 @@ class App extends React.Component<any, any> {
           from: address,
           to,
           bidPrice: _plt_price
-        };
-  
-        // display result
-        this.setState({
-          // connector,
-          pendingRequest: false,
-          result: formattedResult || null,
-        });
-      })
-      .catch((err: any) => {
-        console.log(err);
-        this.setState({ /*connector, */pendingRequest: false, result: null });
-      })
-
-    } catch (error) {
-      console.error(error);
-      this.setState({ /*connector, */pendingRequest: false, result: null });
-    }
-  };
-
-  public testAuctionBidCancelTransaction = async () => {
-    const { address/*, chainId*/ } = this.state;
-
-    if (!this.state.connected) {
-      return;
-    }
-
-    // sell NFT token contract address
-    const sellToken = NFT_contract;
-
-    // sell NFT token id
-    const sellTokenIds = Auction_token_ids;
-
-    // sell token owner address
-    const owner = NFT_owner_address;
-
-    // from
-    const from = address;
-
-    // auction contract address
-    const to = Auction_contract;
-
-    // nonce
-    const _nonce = await apiGetAccountNonce(address, this.state.chainId);
-    const nonce = sanitizeHex(convertStringToHex(_nonce));
-
-    // gasPrice
-    const gasPrices = await apiGetGasPrices();
-    let _gasPrice = gasPrices.slow.price;
-    _gasPrice = 0;
-    const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
-
-    // value
-    const _value = 0;
-    const value = sanitizeHex(convertStringToHex(_value));
-
-    // data
-    // const web3 = new Web3(this.provider as unknown as AbstractProvider);
-    const web3 = new Web3(Web3.givenProvider);
-    const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.cancelBid(owner, sellToken, sellTokenIds, address).encodeABI({
-      nonce: parseInt(nonce, 16),
-      from,
-      to,
-      value,
-      gasPrice,
-      gas: GasLimit
-    });
-
-    const tx: TransactionConfig = {
-      nonce: parseInt(nonce, 16),
-      from,
-      to,
-      value,
-      data,
-      gasPrice,
-      gas: GasLimit
-    };
-
-    try {
-      // open modal
-      this.toggleModal();
-
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
-
-      web3.eth.sendTransaction(tx)
-      .once('sending', (payload: any) => { console.log('sending') })
-      .once('sent', (payload: any) => { console.log('sent') })
-      .once('transactionHash', (hash: string) => { console.log(hash) })
-      .once('receipt', (receipt: any) => { console.log(receipt) })
-      .then((res: any) => {
-        console.log(res);
-
-        const formattedResult = {
-          method: "bid cancel",
-          txHash: res.transactionHash,
-          from: address,
-          to,
         };
   
         // display result
@@ -2369,7 +2271,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.finishAuction(owner, sellToken, sellTokenIds, buyToken, false).encodeABI({
+    const data = auction.methods.finishAuction(NFT_seller_address, sellToken, sellTokenIds, owner, buyToken, false).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
@@ -2610,10 +2512,6 @@ class App extends React.Component<any, any> {
 
                     <STestButton left onClick={this.testAuctionBidRequest3Transaction}>
                       {"bid_request 3"}
-                    </STestButton>
-
-                    <STestButton left onClick={this.testAuctionBidCancelTransaction}>
-                      {"bid_cancel"}
                     </STestButton>
 
                     <STestButton left onClick={this.testAuctionFinishTransaction}>
