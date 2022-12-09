@@ -1920,9 +1920,6 @@ class App extends React.Component<any, any> {
     // sell NFT token id
     const sellTokenIds = Auction_token_ids;
 
-    // sell token owner address
-    const owner = NFT_owner_address;
-
     // PLT token contract address
     const buyToken = PLT_contract;
 
