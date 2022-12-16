@@ -1633,7 +1633,7 @@ class App extends React.Component<any, any> {
 
     const currentDate = new Date();
     const startAt = Math.floor(currentDate.getTime()/1000) + 60;
-    const finishAt = Math.floor(currentDate.getTime()/1000) + 6000;
+    const finishAt = Math.floor(currentDate.getTime()/1000) + 300;
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
