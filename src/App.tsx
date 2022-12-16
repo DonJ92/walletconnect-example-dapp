@@ -1616,7 +1616,7 @@ class App extends React.Component<any, any> {
     const _plt_price = PLT_price_for_NFT;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
-    const reservePrice = sanitizeHex(convertStringToHex(0));
+    const reservePrice = sanitizeHex(convertStringToHex(100 * Math.pow(10,18)));
 
     // order type
     const order_type = 2;
