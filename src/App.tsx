@@ -1616,7 +1616,7 @@ class App extends React.Component<any, any> {
     const _plt_price = PLT_price_for_NFT;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
-    const reservePrice = sanitizeHex(convertStringToHex((_plt_price+50) * Math.pow(10,18)));
+    const reservePrice = sanitizeHex(convertStringToHex((_plt_price) * Math.pow(10,18)));
 
     // order type
     const order_type = 2;
@@ -2262,7 +2262,7 @@ class App extends React.Component<any, any> {
     // const web3 = new Web3(this.provider as unknown as AbstractProvider);
     const web3 = new Web3(Web3.givenProvider);
     const auction = new web3.eth.Contract(AuctionABI as AbiItem[], to);
-    const data = auction.methods.finishAuction(NFT_seller_address, sellToken, sellTokenIds, owner, buyToken, false).encodeABI({
+    const data = auction.methods.finishAuction(NFT_seller_address, sellToken, sellTokenIds, owner, buyToken, true).encodeABI({
       nonce: parseInt(nonce, 16),
       from,
       to,
