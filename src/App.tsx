@@ -1632,8 +1632,8 @@ class App extends React.Component<any, any> {
     const nonce = sanitizeHex(convertStringToHex(_nonce));
 
     const currentDate = new Date();
-    const startAt = Math.floor(currentDate.getTime()/1000) + 600;
-    const finishAt = Math.floor(currentDate.getTime()/1000) + 60000;
+    const startAt = Math.floor(currentDate.getTime()/1000) + 60;
+    const finishAt = Math.floor(currentDate.getTime()/1000) + 6000;
 
     // gasPrice
     const gasPrices = await apiGetGasPrices();
@@ -1930,7 +1930,7 @@ class App extends React.Component<any, any> {
     const to = Auction_contract;
 
     // price
-    const _plt_price = 55;
+    const _plt_price = 60;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
@@ -2034,7 +2034,7 @@ class App extends React.Component<any, any> {
     const to = Auction_contract;
 
     // price
-    const _plt_price = 60;
+    const _plt_price = 70;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
@@ -2138,7 +2138,7 @@ class App extends React.Component<any, any> {
     const to = Auction_contract;
 
     // price
-    const _plt_price = 65;
+    const _plt_price = 80;
     const price = sanitizeHex(convertStringToHex(_plt_price * Math.pow(10,18)));
 
     // nonce
